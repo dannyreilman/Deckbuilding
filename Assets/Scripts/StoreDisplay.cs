@@ -30,11 +30,11 @@ public class StoreDisplay : MonoBehaviour, ZoneDisplay
 
             for(int i = 0; i < toDisplay.piles.Count; ++i)
             {
-                transform.GetChild(i).GetComponent<Image>().sprite = toDisplay.piles[i].cards[0].image;
+                transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = toDisplay.piles[i].cards[0].image;
                 //TODO: fix this to work with different costs
-                transform.GetChild(i).GetChild(0).GetComponent<Text>().text = toDisplay.piles[i].priceCoins.ToString();
-                transform.GetChild(i).GetChild(1).GetComponent<Text>().text = toDisplay.piles[i].name;
-                transform.GetChild(i).GetChild(2).GetComponent<Text>().text = toDisplay.piles[i].cards.Count.ToString();
+                transform.GetChild(i).GetChild(1).GetComponent<Text>().text = toDisplay.piles[i].priceCoins.ToString();
+                transform.GetChild(i).GetChild(3).GetComponent<Text>().text = toDisplay.piles[i].name;
+                transform.GetChild(i).GetChild(4).GetComponent<Text>().text = toDisplay.piles[i].cards.Count.ToString();
                 {
                     int j = i;
                     transform.GetChild(i).GetComponent<ClickBehaviour>().onClick = (()=>toDisplay.Buy(j));

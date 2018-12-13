@@ -56,11 +56,13 @@ public class InputManager : MonoBehaviour
         if(selectedCards.Contains(c))
         {
             selectedCards.Remove(c);
+            c.p_card.Deselect();
             ++stepsLeft;
         }
         else
         {
             selectedCards.Add(c);
+            c.p_card.Select();
             if(stepsLeft > 0)
             {
                 --stepsLeft;
@@ -69,6 +71,14 @@ public class InputManager : MonoBehaviour
                     if(onFinishSelect != null)
                     {
                         onFinishSelect(selectedCards);
+                    }
+
+                    foreach(Card selected in selectedCards)
+                    {
+                        if(selected.p_card != null)
+                        {
+                            selected.p_card.Deselect();
+                        }
                     }
 
                     selectedCards.Clear();
@@ -121,7 +131,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
         if(instance == null || instance.Equals(null))
         {

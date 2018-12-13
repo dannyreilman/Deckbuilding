@@ -11,14 +11,16 @@ public class PhysicalCard : MonoBehaviour
 	public DragBehaviour attachedDrag;
 	public ClickBehaviour attachedClick;
 	Image image;
+	Image highlight;
 	Text text;
 
 	void Awake()
 	{
 		attachedDrag = GetComponent<DragBehaviour>();
 		attachedClick = GetComponent<ClickBehaviour>();
-		image = transform.GetChild(0).GetComponent<Image>();
-		text = transform.GetChild(2).GetComponent<Text>();
+		image = transform.GetChild(1).GetComponent<Image>();
+		highlight = GetComponent<Image>();
+		text = transform.GetChild(3).GetComponent<Text>();
 	}
 	// Use this for initialization
 	void Start ()	
@@ -26,6 +28,15 @@ public class PhysicalCard : MonoBehaviour
 		card.p_card = this;
 		interactableCards.Add(this);
 		InputManager.instance.UpdatePCard(this);
+	}
+
+	public void Select()
+	{
+		highlight.enabled = true;
+	}
+	public void Deselect()
+	{
+		highlight.enabled = false;
 	}
 
 	public void preventInteraction()
