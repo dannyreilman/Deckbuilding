@@ -15,6 +15,11 @@ public class PhysicalPile : Zone {
         physicalParent = transformIn;
     }
 
+    public virtual string GetName()
+    {
+        return name;
+    }
+
     public void DropCard(Card c)
     {
         Debug.Log("Zone " + name + " dropped");

@@ -5,6 +5,10 @@ using UnityEngine;
 public class Store : Zone
 {
 	public string name;
+	public virtual string GetName()
+	{
+		return name;
+	}
 	public Store(string name_in)
 	{
 		name = name_in;

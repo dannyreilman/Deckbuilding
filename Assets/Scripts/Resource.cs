@@ -17,6 +17,30 @@ public class Resource : Card
         GameplayManager.instance.science += science;
     }
 
+    public override string GetCardText()
+    {
+        string to_return = "";
+        if(attack != 0)
+        {
+            to_return += "Gain " + attack.ToString() + " attack.\n";
+        }
+        if(coin != 0)
+        {
+            to_return += "Gain " + coin.ToString() + " coin.\n";
+        }
+        if(hammers != 0)
+        {
+            to_return += "Gain " + hammers.ToString() + " hammer.\n";
+        }
+        if(science != 0)
+        {
+            to_return += "Gain " + science.ToString() + " science.";
+        }
+
+        return to_return;
+    }
+
+
     public override bool CanPlay()
     {
         return base.CanPlay()

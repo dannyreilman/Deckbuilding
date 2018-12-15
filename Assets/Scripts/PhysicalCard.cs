@@ -28,6 +28,7 @@ public class PhysicalCard : MonoBehaviour
 		card.p_card = this;
 		interactableCards.Add(this);
 		InputManager.instance.UpdatePCard(this);
+		attachedClick.onRightClick = () => CardZoom.instance.Show(card);
 	}
 
 	public void Select()

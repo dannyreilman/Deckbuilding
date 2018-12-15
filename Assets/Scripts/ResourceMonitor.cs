@@ -9,6 +9,7 @@ public class ResourceMonitor : MonoBehaviour {
 	Text sword;
 	Text hammer;
 	Text science;
+	Text health;
 
 	void Awake()
 	{
@@ -17,8 +18,9 @@ public class ResourceMonitor : MonoBehaviour {
 		sword = GetComponentsInChildren<Text>()[2];
 		hammer = GetComponentsInChildren<Text>()[3];
 		science = GetComponentsInChildren<Text>()[4];
+		health = GetComponentsInChildren<Text>()[5];
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		GameplayManager gm = GameplayManager.instance;
@@ -27,6 +29,7 @@ public class ResourceMonitor : MonoBehaviour {
 		sword.text = gm.attack.ToString();
 		hammer.text = gm.hammers.ToString();
 		science.text = gm.science.ToString();
+		health.text = gm.health.ToString();
 
 	}
 }

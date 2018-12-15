@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayableZone : MonoBehaviour, Zone {
+	public virtual string GetName()
+	{
+		return name;
+	}
     public void DropCard(Card c)
     {
         Debug.Log("Zone " + name + " dropped");

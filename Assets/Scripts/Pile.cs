@@ -13,6 +13,11 @@ public class Pile : Zone {
         name = name_in;
     }
 
+    public virtual string GetName()
+    {
+        return name;
+    }
+
     public void DropCard(Card c)
     {
         if(name == "")

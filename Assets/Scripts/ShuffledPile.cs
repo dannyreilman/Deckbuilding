@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class ShuffledPile : Zone {
 
+    public string name;
+    public ShuffledPile(string name_in)
+    {
+        name = name_in;
+    }
     public List<Card> cards = new List<Card>();
+	public virtual string GetName()
+	{
+		return name;
+	}
 
     public void DropCard(Card c)
     {

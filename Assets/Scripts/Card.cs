@@ -23,6 +23,11 @@ public class Card : ScriptableObject
         return zone;
     }
 
+    public virtual string GetCardText()
+    {
+        return "";
+    }
+
     public void MoveTo(Zone z)
     {
         if(ReferenceEquals(z, zone))

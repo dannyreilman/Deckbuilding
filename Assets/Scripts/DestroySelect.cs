@@ -6,6 +6,11 @@ public class DestroySelect : SelectSpell
 {
     public int howMany = 0;
 
+    public override string AfterSelectText()
+    {
+        return "Destroy the chosen cards.";
+    }
+
     public override void DoneSelecting(List<Card> selected)
     {
         foreach(Card c in selected)

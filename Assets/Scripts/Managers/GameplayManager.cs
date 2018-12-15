@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
 {
-    public ShuffledPile deck = new ShuffledPile();
+    public ShuffledPile deck = new ShuffledPile("deck");
     public Pile discard = new Pile("discard");
     public Pile destroyedCards = new Pile("destroyed");
     public Store coinsShop = new Store("coins");
@@ -15,6 +15,7 @@ public class GameplayManager : MonoBehaviour
     public int attack;
     public int hammers;
     public int science;
+    public int health;
 
     public enum Phase
     {
@@ -191,6 +192,7 @@ public class GameplayManager : MonoBehaviour
                 e.card.Clone().MoveTo(coinsShop);
             }
         }
+        health = 100;
         StartOfTurn();
     }
 

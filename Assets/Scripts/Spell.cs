@@ -38,6 +38,36 @@ public class Spell : Card
             && gm.energy >= energyCost
             && im.currentMode == InputManager.InputMode.Playing;
     }
+    public override string GetCardText()
+    {
+        string to_return = "";
+        if(cards != 0)
+        {
+            to_return += "Draw " + cards.ToString() + " card" + (cards == 1?"":"s") + ".\n";
+        }
+        if(energy != 0)
+        {
+            to_return += "Gain " + energy.ToString() + " energy.\n";
+        }
+        if(attack != 0)
+        {
+            to_return += "Gain " + attack.ToString() + " attack.\n";
+        }
+        if(coin != 0)
+        {
+            to_return += "Gain " + coin.ToString() + " coin.\n";
+        }
+        if(hammers != 0)
+        {
+            to_return += "Gain " + hammers.ToString() + " hammer.\n";
+        }
+        if(science != 0)
+        {
+            to_return += "Gain " + science.ToString() + " science.";
+        }
+
+        return to_return;
+    }
 
     protected override void HandleClone(Card c)
     {
