@@ -11,6 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef6c712adfd828e4f9764e812fb74a67, type: 3}
   m_Name: Smithy
   m_EditorClassIdentifier: 
+  tooltipTitle: Spending Energy
+  tooltip: Smithy is a "Terminal Spell", meaning it spends an energy and doesn't give
+    it back. Make sure you play all your non terminal spells before playing terminal
+    spells like Smithy.
   cardname: Smithy
   image: {fileID: 21300000, guid: 9a0fb2b2c36ca1346beb63e8c568e198, type: 3}
   p_card: {fileID: 0}
@@ -21,3 +25,4 @@ MonoBehaviour:
   hammers: 0
   science: 0
   energyCost: 1
+  type: Dominion

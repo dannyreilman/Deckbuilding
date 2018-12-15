@@ -8,7 +8,7 @@ public class DestroySelect : SelectSpell
 
     public override string AfterSelectText()
     {
-        return "Destroy the chosen cards.";
+        return "Destroy them.";
     }
 
     public override void DoneSelecting(List<Card> selected)

@@ -98,4 +98,14 @@ public class Store : Zone
 		}
 		Debug.Log("Shop dropped nonexistant card!");
     }
+
+    public int GetCount()
+    {
+		int count = 0;
+        foreach(StoreEntry e in piles)
+		{
+			count += e.cards.Count;
+		}
+		return count;
+    }
 }

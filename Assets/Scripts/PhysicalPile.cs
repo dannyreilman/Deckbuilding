@@ -5,6 +5,11 @@ using UnityEngine;
 //A pile with associated physical cards
 public class PhysicalPile : Zone {
     public List<Card> cards = new List<Card>();
+    public int GetCount()
+    {
+        return cards.Count;
+    }
+
     public string name;
 
     Transform physicalParent;

@@ -11,6 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef6c712adfd828e4f9764e812fb74a67, type: 3}
   m_Name: Village
   m_EditorClassIdentifier: 
+  tooltipTitle: 
+  tooltip: 
   cardname: Village
   image: {fileID: 21300000, guid: 9eb368c403c873745b2d9d2a3b330ce9, type: 3}
   p_card: {fileID: 0}
@@ -21,3 +23,4 @@ MonoBehaviour:
   hammers: 0
   science: 0
   energyCost: 1
+  type: Dominion

@@ -41,7 +41,12 @@ public class InputManager : MonoBehaviour
         {
             zones = new Zone[]{GameplayManager.instance.hand};
         }
-        stepsLeft = howMany;
+        int totalPossible = 0;
+        foreach(Zone z in zones)
+        {
+            totalPossible += z.GetCount();
+        }
+        stepsLeft = Mathf.Min(howMany, totalPossible);
         currentMode = InputMode.Selecting;
         onFinishSelect = onFinish_in;
         selectedCards = new List<Card>();
@@ -110,10 +115,12 @@ public class InputManager : MonoBehaviour
             {
                 Card cardToSelect = p_card.card;
                 p_card.attachedClick.onClick = (() => SelectCard(cardToSelect));
+                p_card.attachedClick.onClick += CardZoom.instance.Hide;
             }
         break;
         case InputMode.Playing:
             p_card.attachedClick.onClick = p_card.card.PlayIfPlayable;
+            p_card.attachedClick.onClick += CardZoom.instance.Hide;
         break;
         }
     }

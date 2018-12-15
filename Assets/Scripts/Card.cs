@@ -3,7 +3,17 @@
 public class Card : ScriptableObject
 {
 
+    public string tooltipTitle;
+    public string tooltip;
     public string cardname;
+    public virtual string GetCardType()
+    {
+        return "";
+    }
+    public virtual Color GetTypeColor()
+    {
+        return new Color(255, 255, 255);
+    }
     public Sprite image;
 
     [HideInInspector]

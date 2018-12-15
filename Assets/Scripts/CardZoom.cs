@@ -12,6 +12,8 @@ public class CardZoom : MonoBehaviour {
 	Text title;
 	Text cardText;
 	GameObject cardBanner;
+	GameObject tooltipBox;
+	Image typeBanner;
 
 
 	// Use this for initialization
@@ -22,10 +24,12 @@ public class CardZoom : MonoBehaviour {
 			GameObject.Find("Playmat").GetComponent<ClickBehaviour>().onRightClick = Hide;
 			GameObject.Find("Playmat").GetComponent<ClickBehaviour>().onClick = Hide;
 			visibleObjects = transform.GetChild(0).gameObject;
+			tooltipBox = visibleObjects.transform.GetChild(1).gameObject;
 			image = visibleObjects.transform.GetChild(0).GetChild(1).GetComponent<Image>();
-			title = visibleObjects.transform.GetChild(0).GetChild(3).GetComponentInChildren<Text>();
-			cardText = visibleObjects.transform.GetChild(0).GetChild(2).GetComponentInChildren<Text>();
+			title = visibleObjects.transform.GetChild(0).GetChild(2).GetComponentInChildren<Text>();
 			cardBanner = image.transform.GetChild(0).gameObject;
+			typeBanner = visibleObjects.transform.GetChild(0).GetChild(3).GetComponent<Image>();
+			cardText = visibleObjects.transform.GetChild(0).GetChild(4).GetComponentInChildren<Text>();
 		}
 		else
 		{
@@ -44,6 +48,18 @@ public class CardZoom : MonoBehaviour {
 		image.sprite = c.image;
 		title.text = c.cardname;
 		cardText.text = c.GetCardText();
+
+		if(c.tooltip != "" || c.tooltipTitle != "")
+		{
+			tooltipBox.SetActive(true);
+			tooltipBox.transform.GetChild(1).GetComponentInChildren<Text>().text = c.tooltipTitle;
+			tooltipBox.transform.GetChild(2).GetComponentInChildren<Text>().text = c.tooltip;
+		}
+		else
+		{	
+			tooltipBox.SetActive(false);
+		}
+
 		try{
 			int cost = ((Spell)c).energyCost;
 			if(cost != 0)
@@ -60,5 +76,9 @@ public class CardZoom : MonoBehaviour {
 		{
 			cardBanner.SetActive(false);
 		}
+		
+		typeBanner.color = c.GetTypeColor();
+		typeBanner.GetComponentInChildren<Text>().text = c.GetCardType();
+
 	}
 }

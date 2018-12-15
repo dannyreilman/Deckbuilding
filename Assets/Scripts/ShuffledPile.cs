@@ -50,4 +50,9 @@ public class ShuffledPile : Zone {
         }
 
     }
+
+    public int GetCount()
+    {
+        return cards.Count;
+    }
 }

@@ -13,6 +13,16 @@ public class Spell : Card
     public int science = 0;
     public int energyCost = 0;
 
+    public string type;
+    public override string GetCardType()
+    {
+        return ((type =="")?"":(type + " ")) + "Spell";
+    }
+    public override Color GetTypeColor()
+    {
+        return new Color(255, 0, 255);
+    }
+
     public override void OnPlay()
     {
         base.OnPlay();

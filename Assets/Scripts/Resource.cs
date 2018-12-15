@@ -7,6 +7,44 @@ public class Resource : Card
     public int coin;
     public int hammers;
     public int science;
+    public string type;
+    public override string GetCardType()
+    {
+        return ((type =="")?"":(type + " ")) + "Resource";
+    }
+    
+    public override Color GetTypeColor()
+    {
+        if(attack > coin
+        && attack > hammers
+        && attack > science)
+        {
+            return new Color(255, 0, 0);
+        }
+
+        if(coin > attack
+        && coin > hammers
+        && coin > science)
+        {
+            return new Color(255, 255, 0);
+        }
+
+        if(hammers > attack
+        && hammers > coin
+        && hammers > science)
+        {
+            return new Color(255, 170, 0);
+        }
+
+        if(science > attack
+        && science > coin
+        && science > hammers)
+        {
+            return new Color(0, 255, 255);
+        }
+
+        return new Color(0, 255, 0);
+    }
 
     public override void OnPlay()
     {

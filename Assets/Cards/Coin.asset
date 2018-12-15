@@ -11,6 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88dd5cd108c6f974f8dec187a2316583, type: 3}
   m_Name: Coin
   m_EditorClassIdentifier: 
+  tooltipTitle: Resource Cards
+  tooltip: You can play as many resource cards as you want per turn, but only during
+    your resource phase.
   cardname: Coin
   image: {fileID: 21300000, guid: 209cc81908b5873459ae7597ac18974d, type: 3}
   p_card: {fileID: 0}

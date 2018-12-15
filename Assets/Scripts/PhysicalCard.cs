@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 
 public class PhysicalCard : MonoBehaviour
 {
@@ -13,6 +13,8 @@ public class PhysicalCard : MonoBehaviour
 	Image image;
 	Image highlight;
 	Text text;
+	GameObject costBanner;
+	Image typeBanner;
 
 	void Awake()
 	{
@@ -20,7 +22,9 @@ public class PhysicalCard : MonoBehaviour
 		attachedClick = GetComponent<ClickBehaviour>();
 		image = transform.GetChild(1).GetComponent<Image>();
 		highlight = GetComponent<Image>();
-		text = transform.GetChild(3).GetComponent<Text>();
+		text = transform.GetChild(2).GetComponentInChildren<Text>();
+		costBanner = image.transform.GetChild(0).gameObject;
+		typeBanner = transform.GetChild(3).GetComponent<Image>();
 	}
 	// Use this for initialization
 	void Start ()	
@@ -64,6 +68,25 @@ public class PhysicalCard : MonoBehaviour
 		card = c;
 		image.sprite = c.image;
 		text.text = c.cardname;
+		try{
+			int cost = ((Spell)c).energyCost;
+			if(cost != 0)
+			{
+				costBanner.SetActive(true);
+				costBanner.GetComponentInChildren<Text>().text = "Cost: " + cost.ToString() + " energy";
+			}
+			else
+			{
+				costBanner.SetActive(false);
+			}
+		}
+		catch(InvalidCastException e)
+		{
+			costBanner.SetActive(false);
+		}
+
+		typeBanner.color = c.GetTypeColor();
+		typeBanner.GetComponentInChildren<Text>().text = c.GetCardType();
 	}
 
 }

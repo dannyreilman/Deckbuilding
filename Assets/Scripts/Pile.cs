@@ -6,6 +6,10 @@ using UnityEngine.Assertions;
 public class Pile : Zone {
 
     public List<Card> cards = new List<Card>();
+    public int GetCount()
+    {
+        return cards.Count;
+    }
     public string name;
 
     public Pile(string name_in = "")

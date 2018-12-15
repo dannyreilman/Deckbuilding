@@ -42,4 +42,9 @@ public class PlayableZone : MonoBehaviour, Zone {
     {
 		
 	}
+
+    public int GetCount()
+    {
+        return 0;
+    }
 }
