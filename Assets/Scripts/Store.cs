@@ -43,7 +43,7 @@ public class Store : Zone
 			return false;
 		}
         GameplayManager gm = GameplayManager.instance;
-		return((gm.currentPhase == GameplayManager.Phase.Actions
+		return((gm.currentPhase == GameplayManager.Phase.Spending
 			|| gm.currentPhase == GameplayManager.Phase.Resources)
 			&& gm.coin >= piles[index].priceCoins
 			&& gm.attack >= piles[index].priceAttack

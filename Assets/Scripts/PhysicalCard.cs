@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PhysicalCard : MonoBehaviour
 {
+	static float shrinkFactor = 0.9f;
+	static float growFactor = 1.1f;
 	public static List<PhysicalCard> interactableCards = new List<PhysicalCard>();
 	public Card card;
 	public DragBehaviour attachedDrag;
@@ -15,6 +17,9 @@ public class PhysicalCard : MonoBehaviour
 	Text text;
 	GameObject costBanner;
 	Image typeBanner;
+	GameObject grayout;
+	bool hovering = false;
+	Vector2 size = new Vector2(100, 150);
 
 	void Awake()
 	{
@@ -25,6 +30,7 @@ public class PhysicalCard : MonoBehaviour
 		text = transform.GetChild(2).GetComponentInChildren<Text>();
 		costBanner = image.transform.GetChild(0).gameObject;
 		typeBanner = transform.GetChild(3).GetComponent<Image>();
+		grayout = transform.GetChild(4).gameObject;
 	}
 	// Use this for initialization
 	void Start ()	
@@ -33,6 +39,51 @@ public class PhysicalCard : MonoBehaviour
 		interactableCards.Add(this);
 		InputManager.instance.UpdatePCard(this);
 		attachedClick.onRightClick = () => CardZoom.instance.Show(card);
+		UpdateSize();
+	}
+
+	bool shrink()
+	{
+		return (card.GetZone().GetName() == "hand") && !card.CanPlay() && InputManager.instance.currentMode == InputManager.InputMode.Playing;
+	}
+
+	bool grow()
+	{
+		return card.CanPlay() && hovering;
+	}
+
+	void UpdateSize()
+	{
+		if(shrink())
+		{
+			grayout.SetActive(true);
+			((RectTransform)transform).sizeDelta = size * shrinkFactor;
+		}
+		else if(grow())
+		{
+			grayout.SetActive(false);
+			((RectTransform)transform).sizeDelta = size * growFactor;
+		}
+		else
+		{
+			grayout.SetActive(false);
+			((RectTransform)transform).sizeDelta = size;
+		}
+	}
+
+	void Update()
+	{
+		UpdateSize();
+	}
+
+	public void OnMouseOver()
+	{
+		hovering = true;
+	}
+
+	public void OnMouseExit()
+	{
+		hovering = false;
 	}
 
 	public void Select()

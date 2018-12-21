@@ -21,7 +21,7 @@ public class GameplayManager : MonoBehaviour
     {
         Spells,
         Resources,
-        Actions
+        Spending
     }
 
     [System.Serializable]
@@ -64,21 +64,25 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    void Update()
+    public void AutoplayResources()
     {
-        if(currentPhase != Phase.Actions)
+        if(currentPhase == Phase.Resources)
         {
-            if(currentPhase == Phase.Resources && Input.GetKeyDown(KeyCode.A))
+            for(int i = hand.cards.Count - 1; i >= 0; --i)
             {
-                for(int i = hand.cards.Count - 1; i >= 0; --i)
+                if(hand.cards[i] is Resource && ((Resource)hand.cards[i]).PlayAll())
                 {
-                    if(hand.cards[i] is Resource && ((Resource)hand.cards[i]).PlayAll())
-                    {
-                        hand.cards[i].OnPlay();
-                    }
+                    hand.cards[i].OnPlay();
                 }
             }
+        }
+        
+    }
 
+    void Update()
+    {
+        if(currentPhase != Phase.Spending)
+        {
             if(!Input.GetKeyDown(KeyCode.Space) && InputManager.instance.currentMode == InputManager.InputMode.Playing)
             {
                 bool autoPass = true;
@@ -93,29 +97,6 @@ public class GameplayManager : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            if(!Input.GetKeyDown(KeyCode.Space) && InputManager.instance.currentMode == InputManager.InputMode.Playing)
-            {
-                bool anythingToDo = false;
-                for(int i = 0; i < coinsShop.piles.Count; ++i)
-                {
-                    if(coinsShop.CanBuy(i))
-                    {
-                        anythingToDo = true;
-                    }
-                }
-
-                if(!anythingToDo)
-                {
-                    AdvancePhase();
-                }
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            AdvancePhase();
-        }
     }
 
     public void AdvancePhase()
@@ -126,9 +107,9 @@ public class GameplayManager : MonoBehaviour
                 currentPhase = Phase.Resources;
                 break;
             case Phase.Resources:
-                currentPhase = Phase.Actions;
+                currentPhase = Phase.Spending;
                 break;
-            case Phase.Actions:
+            case Phase.Spending:
                 EndOfTurn();
                 StartOfTurn();
                 break;

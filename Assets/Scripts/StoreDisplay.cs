@@ -38,7 +38,6 @@ public class StoreDisplay : MonoBehaviour, ZoneDisplay
                 int j = i;
                 transform.GetChild(i).GetComponent<ClickBehaviour>().onClick = (()=>toDisplay.Buy(j));
                 transform.GetChild(i).GetComponent<ClickBehaviour>().onRightClick = (()=>CardZoom.instance.Show(toDisplay.piles[j].cards[0]));
-
             }
         }
     }

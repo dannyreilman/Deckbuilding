@@ -6,10 +6,14 @@ using UnityEngine.UI;
 public class InputModeDisplay : MonoBehaviour {
 
 	Text attachedText;
+	Text childText;
+	GameObject autoPlay;
 	
 	void Awake()
 	{
 		attachedText = GetComponent<Text>();
+		childText = transform.GetChild(0).GetComponentInChildren<Text>();
+		autoPlay = transform.GetChild(1).gameObject;
 	}
 
 	// Update is called once per frame
@@ -24,12 +28,18 @@ public class InputModeDisplay : MonoBehaviour {
 				{
 					case GameplayManager.Phase.Spells:
 						attachedText.text = "Play spells";
+						childText.text = "Advance To Resource Phase";
+						autoPlay.SetActive(false);
 						break;
 					case GameplayManager.Phase.Resources:
 						attachedText.text = "Play resources";
+						childText.text = "Advance To Spending Phase";
+						autoPlay.SetActive(true);
 						break;
-					case GameplayManager.Phase.Actions:
-						attachedText.text = "Do actions";
+					case GameplayManager.Phase.Spending:
+						attachedText.text = "Spend resources";
+						childText.text = "Next Turn";
+						autoPlay.SetActive(false);
 						break;
 				}
 				break;
@@ -37,5 +47,14 @@ public class InputModeDisplay : MonoBehaviour {
 				attachedText.text = "Select " + InputManager.instance.stepsLeft + " cards.";
 				break;
 		}
+	}
+
+	public void Advance()
+	{
+		GameplayManager.instance.AdvancePhase();
+	}
+	public void Autoplay()
+	{
+		GameplayManager.instance.AutoplayResources();
 	}
 }
