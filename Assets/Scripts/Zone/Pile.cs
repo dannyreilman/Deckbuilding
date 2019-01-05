@@ -24,28 +24,12 @@ public class Pile : Zone {
 
     public void DropCard(Card c)
     {
-        if(name == "")
-        {
-            Debug.Log("Unnamed Pile dropped");
-        }
-        else
-        {
-            Debug.Log(name + " dropped");
-        }
         cards.Remove(c);
         Assert.IsFalse(cards.Contains(c));
     }
 
     public void AddCard(Card c)
     {
-        if(name == "")
-        {
-            Debug.Log("Unnamed Pile gained");
-        }
-        else
-        {
-            Debug.Log(name + " gained");
-        }
         cards.Add(c);
         if(c.p_card != null)
         {

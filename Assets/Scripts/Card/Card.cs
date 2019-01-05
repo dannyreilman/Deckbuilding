@@ -1,12 +1,28 @@
 ﻿using UnityEngine;
+using System.Runtime.CompilerServices;
 
-public class Card : ScriptableObject
+public class Card : ScriptableObject, Buyable
 {
 
     public string tooltipTitle;
     public string tooltip;
+
+    public string GetTooltip()
+    {
+        return tooltip;
+    }
+
+    public string GetTooltipTitle()
+    {
+        return tooltipTitle;
+    }
     public string cardname;
-    public virtual string GetCardType()
+    public int baseCost;
+    public string GetName()
+    {
+        return cardname;
+    }
+    public virtual string GetTypename()
     {
         return "";
     }
@@ -15,6 +31,14 @@ public class Card : ScriptableObject
         return new Color(255, 255, 255);
     }
     public Sprite image;
+    public Sprite GetDisplay()
+    {
+        return image;
+    }
+    public void Buy()
+    {
+        MoveTo(GameplayManager.instance.discard);
+    }
 
     [HideInInspector]
     public PhysicalCard p_card = null;
@@ -33,7 +57,7 @@ public class Card : ScriptableObject
         return zone;
     }
 
-    public virtual string GetCardText()
+    public virtual string GetDescription()
     {
         return "";
     }
@@ -93,5 +117,10 @@ public class Card : ScriptableObject
     public override bool Equals(object other)
     {
         return ReferenceEquals(this, other);
+    }
+
+    public override int GetHashCode()
+    {
+        return RuntimeHelpers.GetHashCode(this);
     }
 }

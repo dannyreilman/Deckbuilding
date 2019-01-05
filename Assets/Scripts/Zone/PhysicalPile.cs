@@ -27,13 +27,11 @@ public class PhysicalPile : Zone {
 
     public void DropCard(Card c)
     {
-        Debug.Log("Zone " + name + " dropped");
         cards.Remove(c);
     }
 
     public void AddCard(Card c)
     {
-        Debug.Log("Zone " + name + " gained");
         cards.Add(c);
         if(c.p_card == null)
         {

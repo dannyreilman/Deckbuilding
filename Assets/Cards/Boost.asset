@@ -8,17 +8,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88dd5cd108c6f974f8dec187a2316583, type: 3}
-  m_Name: Hammer
+  m_Script: {fileID: 11500000, guid: ef6c712adfd828e4f9764e812fb74a67, type: 3}
+  m_Name: Boost
   m_EditorClassIdentifier: 
   tooltipTitle: 
   tooltip: 
-  cardname: Hammer
-  baseCost: 2
-  image: {fileID: 21300000, guid: d3f8df6b6b22fdf409ec1fcc5befd1e3, type: 3}
+  cardname: Boost
+  image: {fileID: 21300000, guid: 8ef53f13fbcf0044bba68a5762a80399, type: 3}
   p_card: {fileID: 0}
+  coin: 3
+  energy: 1
   attack: 0
-  coin: 0
-  hammers: 1
+  cards: 0
+  hammers: 0
   science: 0
-  type: 
+  energyCost: 0
+  type: Base

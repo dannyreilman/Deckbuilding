@@ -7,7 +7,9 @@ public class GameplayManager : MonoBehaviour
     public ShuffledPile deck = new ShuffledPile("deck");
     public Pile discard = new Pile("discard");
     public Pile destroyedCards = new Pile("destroyed");
-    public Store coinsShop = new Store("coins");
+    public Store coinsShop = new Store("coins", Resource.Type.coin);
+    public Store hammersShop = new Store("coins", Resource.Type.hammers, true);
+    public List<Blueprint> built = new List<Blueprint>();
     public PhysicalPile play;
     public PhysicalPile hand;
     public int energy;
@@ -30,16 +32,10 @@ public class GameplayManager : MonoBehaviour
         public Card card;
         public int copies;
     }
-    [System.Serializable]
-    public struct BaseShopEntry
-    {
-        public Card card;
-        public int copies;
-        public int cost;
-    }
 
     public BaseDeckEntry[] startingDeck;
-    public BaseShopEntry[] startingShop;
+    public CardStoreSet coinsStarting;
+    public BlueprintSet hammersStarting;
 
     [HideInInspector]
     public Phase currentPhase;
@@ -56,6 +52,7 @@ public class GameplayManager : MonoBehaviour
             GameObject.Find("Discard").GetComponent<ZoneDisplay>().Display(discard);
             GameObject.Find("Deck").GetComponent<ZoneDisplay>().Display(deck);
             GameObject.Find("CoinsStore").GetComponent<StoreDisplay>().Display(coinsShop);
+            GameObject.Find("HammersStore").GetComponent<StoreDisplay>().Display(hammersShop);
             StartOfGame();
         }
         else
@@ -131,7 +128,6 @@ public class GameplayManager : MonoBehaviour
         if(deck.cards.Count > 0)
         {
             deck.cards[0].MoveTo(hand);
-            Debug.Log("Drew a card");
         }
         else
         {
@@ -164,15 +160,24 @@ public class GameplayManager : MonoBehaviour
                 e.card.Clone().MoveTo(deck);
             }
         }
-        foreach(BaseShopEntry e in startingShop)
+
+        foreach(Card c in coinsStarting.cardSet.cards)
         {
             Store.StoreEntry storeEntry = new Store.StoreEntry();
-            coinsShop.AddPile(e.card.cardname, e.cost);
-            for(int i = 0; i < e.copies; ++i)
+            coinsShop.AddPile(c.cardname, c.baseCost);
+            for(int i = 0; i < coinsStarting.countEach; ++i)
             {
-                e.card.Clone().MoveTo(coinsShop);
+                coinsShop.AddElement(c.Clone());
             }
         }
+
+        foreach(Blueprint b in hammersStarting.blueprints)
+        {
+            Store.StoreEntry storeEntry = new Store.StoreEntry();
+            hammersShop.AddPile(b.GetName(), b.baseCost);
+            hammersShop.AddElement(b.Clone());
+        }
+
         health = 100;
         StartOfTurn();
     }
@@ -189,6 +194,11 @@ public class GameplayManager : MonoBehaviour
         for(int i = 0; i < 5; ++i)
         {
             DrawCard();
+        }
+
+        foreach(Blueprint b in built)
+        {
+            b.OnStartOfTurn();
         }
     }
 

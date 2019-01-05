@@ -22,10 +22,10 @@ public abstract class SelectSpell: Spell
         InputManager.instance.Select(GetValidZones(), SelectHowMany(), DoneSelecting);
     }
 
-    public override string GetCardText()
+    public override string GetDescription()
     {
         string to_return = "";
-        to_return += base.GetCardText() + "\n";
+        to_return += base.GetDescription() + "\n";
         to_return += "Select " + SelectHowMany() + " cards from";
         Zone[] zones = GetValidZones();
         for(int i = 0; i < zones.Length; ++i)

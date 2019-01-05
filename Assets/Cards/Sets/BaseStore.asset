@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6041b6720f24dea4895dda012bcb4e0b, type: 3}
+  m_Name: BaseStore
+  m_EditorClassIdentifier: 
+  cardSet: {fileID: 11400000, guid: ef3527e699b503e4c8c0958e7c2cb66c, type: 2}
+  countEach: 50

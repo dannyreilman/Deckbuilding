@@ -115,12 +115,12 @@ public class InputManager : MonoBehaviour
             {
                 Card cardToSelect = p_card.card;
                 p_card.attachedClick.onClick = (() => SelectCard(cardToSelect));
-                p_card.attachedClick.onClick += CardZoom.instance.Hide;
+                p_card.attachedClick.onClick += ZoomDisplay.instance.Hide;
             }
         break;
         case InputMode.Playing:
             p_card.attachedClick.onClick = p_card.card.PlayIfPlayable;
-            p_card.attachedClick.onClick += CardZoom.instance.Hide;
+            p_card.attachedClick.onClick += ZoomDisplay.instance.Hide;
         break;
         }
     }

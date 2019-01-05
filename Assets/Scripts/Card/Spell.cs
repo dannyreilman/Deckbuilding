@@ -14,7 +14,7 @@ public class Spell : Card
     public int energyCost = 0;
 
     public string type;
-    public override string GetCardType()
+    public override string GetTypename()
     {
         return ((type =="")?"":(type + " ")) + "Spell";
     }
@@ -48,7 +48,7 @@ public class Spell : Card
             && gm.energy >= energyCost
             && im.currentMode == InputManager.InputMode.Playing;
     }
-    public override string GetCardText()
+    public override string GetDescription()
     {
         string to_return = "";
         if(cards != 0)

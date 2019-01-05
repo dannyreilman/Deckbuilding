@@ -17,7 +17,6 @@ public class ShuffledPile : Zone {
 
     public void DropCard(Card c)
     {
-        Debug.Log("ShuffledPile dropped");
         cards.Remove(c);
     }
 
@@ -30,7 +29,6 @@ public class ShuffledPile : Zone {
 
     public void AddCard(Card c)
     {
-        Debug.Log("ShuffledPile gained");
         int index = Random.Range(0, cards.Count + 1);
         cards.Insert(index, c);
         if(c.p_card != null)
@@ -41,7 +39,6 @@ public class ShuffledPile : Zone {
 
     public void AddAtPosition(Card c, int pos)
     {
-        Debug.Log("ShuffledPile gained");
         int index = Random.Range(0, cards.Count + 1);
         cards.Insert(index, c);
         if(c.p_card != null)

@@ -3,12 +3,17 @@ using UnityEngine;
 [CreateAssetMenu(menuName="Cards/Resource", fileName="Resource")]
 public class Resource : Card
 {
+    public enum Type
+    {
+        attack, coin, hammers, science
+    }
+
     public int attack;
     public int coin;
     public int hammers;
     public int science;
     public string type;
-    public override string GetCardType()
+    public override string GetTypename()
     {
         return ((type =="")?"":(type + " ")) + "Resource";
     }
@@ -55,7 +60,7 @@ public class Resource : Card
         GameplayManager.instance.science += science;
     }
 
-    public override string GetCardText()
+    public override string GetDescription()
     {
         string to_return = "";
         if(attack != 0)

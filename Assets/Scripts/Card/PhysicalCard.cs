@@ -38,7 +38,7 @@ public class PhysicalCard : MonoBehaviour
 		card.p_card = this;
 		interactableCards.Add(this);
 		InputManager.instance.UpdatePCard(this);
-		attachedClick.onRightClick = () => CardZoom.instance.Show(card);
+		attachedClick.onRightClick = () => ZoomDisplay.instance.Show(card);
 		UpdateSize();
 	}
 
@@ -137,7 +137,7 @@ public class PhysicalCard : MonoBehaviour
 		}
 
 		typeBanner.color = c.GetTypeColor();
-		typeBanner.GetComponentInChildren<Text>().text = c.GetCardType();
+		typeBanner.GetComponentInChildren<Text>().text = c.GetTypename();
 	}
 
 }

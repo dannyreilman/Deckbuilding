@@ -4,9 +4,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardZoom : MonoBehaviour {
+public class ZoomDisplay : MonoBehaviour {
 
-	public static CardZoom instance = null;
+	public static ZoomDisplay instance = null;
 	GameObject visibleObjects;
 	Image image;
 	Text title;
@@ -42,18 +42,18 @@ public class CardZoom : MonoBehaviour {
 		visibleObjects.SetActive(false);
 	}
 
-	public void Show(Card c)
+	public void Show(Buyable b)
 	{
 		visibleObjects.SetActive(true);
-		image.sprite = c.image;
-		title.text = c.cardname;
-		cardText.text = c.GetCardText();
+		image.sprite = b.GetDisplay();
+		title.text = b.GetName();
+		cardText.text = b.GetDescription();
 
-		if(c.tooltip != "" || c.tooltipTitle != "")
+		if(b.GetTooltip() != "" || b.GetTooltipTitle() != "")
 		{
 			tooltipBox.SetActive(true);
-			tooltipBox.transform.GetChild(1).GetComponentInChildren<Text>().text = c.tooltipTitle;
-			tooltipBox.transform.GetChild(2).GetComponentInChildren<Text>().text = c.tooltip;
+			tooltipBox.transform.GetChild(1).GetComponentInChildren<Text>().text = b.GetTooltipTitle();
+			tooltipBox.transform.GetChild(2).GetComponentInChildren<Text>().text = b.GetTooltip();
 		}
 		else
 		{	
@@ -61,7 +61,7 @@ public class CardZoom : MonoBehaviour {
 		}
 
 		try{
-			int cost = ((Spell)c).energyCost;
+			int cost = ((Spell)b).energyCost;
 			if(cost != 0)
 			{
 				cardBanner.SetActive(true);
@@ -77,8 +77,8 @@ public class CardZoom : MonoBehaviour {
 			cardBanner.SetActive(false);
 		}
 		
-		typeBanner.color = c.GetTypeColor();
-		typeBanner.GetComponentInChildren<Text>().text = c.GetCardType();
+		typeBanner.color = b.GetTypeColor();
+		typeBanner.GetComponentInChildren<Text>().text = b.GetTypename();
 
 	}
 }

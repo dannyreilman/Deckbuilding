@@ -11,10 +11,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88dd5cd108c6f974f8dec187a2316583, type: 3}
   m_Name: Science
   m_EditorClassIdentifier: 
+  tooltipTitle: 
+  tooltip: 
   cardname: Science
+  baseCost: 2
   image: {fileID: 21300000, guid: d0f1de41b67e949459cc7f11ab5ed4b6, type: 3}
   p_card: {fileID: 0}
   attack: 0
   coin: 0
   hammers: 0
   science: 1
+  type: 
