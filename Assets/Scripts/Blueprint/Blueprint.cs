@@ -19,17 +19,18 @@ public class Blueprint : ScriptableObject, Buyable
     }
     public string blueprintName;
     public int baseCost;
+    public int researchCost;
     public string GetName()
     {
         return blueprintName;
     }
     public virtual string GetTypename()
     {
-        return "";
+        return "Blueprint";
     }
     public virtual Color GetTypeColor()
     {
-        return new Color(255, 255, 255);
+        return new Color(1, 0.6f, 0);
     }
     public Sprite image;
     public Sprite GetDisplay()

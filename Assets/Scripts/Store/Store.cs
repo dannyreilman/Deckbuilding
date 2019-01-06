@@ -38,6 +38,11 @@ public class Store
 	public List<StoreEntry> piles = new List<StoreEntry>();
 	public void AddPile(string name, int price)
 	{
+		foreach(StoreEntry pile in piles)
+		{
+			if(pile.name == name)
+				return;
+		}
 		StoreEntry e = new StoreEntry();
 		e.name = name;
 		e.elements = new List<Buyable>();
@@ -46,7 +51,7 @@ public class Store
 		piles.Add(e);
 	}
 
-	private bool RightPhase()
+	protected bool RightPhase()
 	{
 		GameplayManager gm = GameplayManager.instance;
 		return gm.currentPhase == GameplayManager.Phase.Spending
@@ -82,7 +87,7 @@ public class Store
 		}
 	}
 
-    public void Buy(int index)
+    public virtual void Buy(int index)
     {
         GameplayManager gm = GameplayManager.instance;
 		if(index < piles.Count
@@ -184,7 +189,7 @@ public class Store
 		}
     }
 
-    public void AddElement(Buyable element)
+    public virtual void AddElement(Buyable element)
     {
         foreach(StoreEntry e in piles)
 		{

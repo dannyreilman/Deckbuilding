@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(menuName="CardSets/StoreSet", fileName="New Set")]
+[CreateAssetMenu(menuName="Cards/CardStoreSet", fileName="New Set")]
 public class CardStoreSet : ScriptableObject
 {
     public CardSet cardSet;

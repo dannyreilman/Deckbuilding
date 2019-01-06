@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88dd5cd108c6f974f8dec187a2316583, type: 3}
-  m_Name: 2Coin
+  m_Name: Double Coin
   m_EditorClassIdentifier: 
   tooltipTitle: 
   tooltip: 

@@ -8,8 +8,10 @@ public class GameplayManager : MonoBehaviour
     public Pile discard = new Pile("discard");
     public Pile destroyedCards = new Pile("destroyed");
     public Store coinsShop = new Store("coins", Resource.Type.coin);
-    public Store hammersShop = new Store("coins", Resource.Type.hammers, true);
+    public Store hammersShop = new Store("hammers", Resource.Type.hammers, true);
     public List<Blueprint> built = new List<Blueprint>();
+    public Store scienceShop = new Store("science", Resource.Type.science, true);
+    public EnemyStore attackShop = new EnemyStore("enemies", Resource.Type.attack);
     public PhysicalPile play;
     public PhysicalPile hand;
     public int energy;
@@ -18,6 +20,8 @@ public class GameplayManager : MonoBehaviour
     public int hammers;
     public int science;
     public int health;
+
+    public List<Enemy> activeEnemies = new List<Enemy>();
 
     public enum Phase
     {
@@ -36,6 +40,9 @@ public class GameplayManager : MonoBehaviour
     public BaseDeckEntry[] startingDeck;
     public CardStoreSet coinsStarting;
     public BlueprintSet hammersStarting;
+    public CardStoreSet researchCoinsStarting;
+    public BlueprintSet researchBlueprintStarting;
+    public EnemySet attackStarting;
 
     [HideInInspector]
     public Phase currentPhase;
@@ -53,6 +60,10 @@ public class GameplayManager : MonoBehaviour
             GameObject.Find("Deck").GetComponent<ZoneDisplay>().Display(deck);
             GameObject.Find("CoinsStore").GetComponent<StoreDisplay>().Display(coinsShop);
             GameObject.Find("HammersStore").GetComponent<StoreDisplay>().Display(hammersShop);
+            
+            GameObject.Find("AttackStore").GetComponent<StoreDisplay>().Display(attackShop);
+            GameObject.Find("ScienceStore").GetComponent<StoreDisplay>().Display(scienceShop);
+
             StartOfGame();
         }
         else
@@ -178,6 +189,27 @@ public class GameplayManager : MonoBehaviour
             hammersShop.AddElement(b.Clone());
         }
 
+        foreach(Enemy e in attackStarting.enemies)
+        {
+            Store.StoreEntry storeEntry = new Store.StoreEntry();
+            attackShop.AddPile(e.GetName(), e.health);
+            attackShop.AddElement(e.Clone());
+        }
+
+        foreach(Card c in researchCoinsStarting.cardSet.cards)
+        {
+            Store.StoreEntry storeEntry = new Store.StoreEntry();
+            scienceShop.AddPile("Research " + c.GetName(), c.researchCost);
+            scienceShop.AddElement(new Research(c.Clone()));
+        }
+
+        foreach(Blueprint b in researchBlueprintStarting.blueprints)
+        {
+            Store.StoreEntry storeEntry = new Store.StoreEntry();
+            scienceShop.AddPile("Research " + b.GetName(), b.researchCost);
+            scienceShop.AddElement(new Research(b.Clone()));
+        }
+
         health = 100;
         StartOfTurn();
     }
@@ -206,5 +238,9 @@ public class GameplayManager : MonoBehaviour
     {
         DiscardHand();
         DiscardPlay();
+        foreach(Enemy e in activeEnemies)
+        {
+            e.DealAttack();
+        }
     }
 }

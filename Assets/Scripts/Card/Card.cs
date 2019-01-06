@@ -18,6 +18,7 @@ public class Card : ScriptableObject, Buyable
     }
     public string cardname;
     public int baseCost;
+    public int researchCost;
     public string GetName()
     {
         return cardname;

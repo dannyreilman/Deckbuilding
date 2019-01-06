@@ -36,14 +36,7 @@ public class StoreDisplay : MonoBehaviour
             {
                 int j = i;
                 transform.GetChild(i).GetComponent<ClickBehaviour>().onClick = (()=>toDisplay.Buy(j));
-                transform.GetChild(i).GetComponent<ClickBehaviour>().onRightClick = (
-                    ()=>{
-                        int k = j;
-                            if(toDisplay.piles[k].elements[0] is Card)
-                            {
-                                ZoomDisplay.instance.Show((Card)toDisplay.piles[k].elements[0]);
-                            }
-                        });
+                transform.GetChild(i).GetComponent<ClickBehaviour>().onRightClick = ()=>ZoomDisplay.instance.Show(toDisplay.piles[j].elements[0]);
             }
         }
     }
@@ -52,7 +45,6 @@ public class StoreDisplay : MonoBehaviour
         if(toDisplay != null)
         {
             UpdateDisplay();
-            
         }
     }
 }

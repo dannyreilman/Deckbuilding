@@ -24,31 +24,31 @@ public class Resource : Card
         && attack > hammers
         && attack > science)
         {
-            return new Color(255, 0, 0);
+            return new Color(1, 0, 0);
         }
 
         if(coin > attack
         && coin > hammers
         && coin > science)
         {
-            return new Color(255, 255, 0);
+            return new Color(1, 1, 0);
         }
 
         if(hammers > attack
         && hammers > coin
         && hammers > science)
         {
-            return new Color(255, 170, 0);
+            return new Color(1, 0.6f, 0);
         }
 
         if(science > attack
         && science > coin
         && science > hammers)
         {
-            return new Color(0, 255, 255);
+            return new Color(0, 1, 1);
         }
 
-        return new Color(0, 255, 0);
+        return new Color(0, 1, 0);
     }
 
     public override void OnPlay()
