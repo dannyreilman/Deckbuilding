@@ -154,6 +154,7 @@ public class InputManager : MonoBehaviour
 
     public void RegisterPlay()
     {
+        InputModeDisplay.instance.CloseConfirmation();
         if(stepsLeft != -1)
         {
             --stepsLeft;

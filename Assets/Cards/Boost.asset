@@ -25,4 +25,4 @@ MonoBehaviour:
   hammers: 0
   science: 0
   energyCost: 0
-  type: Base
+  type: Core

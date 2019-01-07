@@ -45,6 +45,15 @@ public class Store
 		}
 		return false;
 	}
+	public bool AnyBuyable()
+	{
+		for(int i = 0; i < piles.Count; ++i)
+		{
+			if(piles[i].price > 0 && CanBuy(i))
+				return true;
+		}
+		return false;
+	}
 	public void AddPile(string name, int price)
 	{
 		if(HasPile(name))
@@ -95,6 +104,7 @@ public class Store
 
     public virtual void Buy(int index)
     {
+        InputModeDisplay.instance.CloseConfirmation();
         GameplayManager gm = GameplayManager.instance;
 		if(index < piles.Count
 		&& CanBuy(index))

@@ -5,20 +5,29 @@ using UnityEngine.UI;
 
 public class InputModeDisplay : MonoBehaviour {
 
+	public static InputModeDisplay instance = null;
 	Text attachedText;
 	Text childText;
 	GameObject autoPlay;
 	GameObject nextTurn;
 	GameObject finishSelecting;
+	public GameObject skipConfirmation;
 	
 	void Awake()
 	{
-		attachedText = GetComponent<Text>();
-		childText = transform.GetChild(0).GetComponentInChildren<Text>();
-		nextTurn = transform.GetChild(0).gameObject;
-		autoPlay = transform.GetChild(1).gameObject;
-		finishSelecting = transform.GetChild(2).gameObject;
-
+		if(instance == null || instance.Equals(null))
+		{
+			instance = this;
+			attachedText = GetComponent<Text>();
+			childText = transform.GetChild(0).GetComponentInChildren<Text>();
+			nextTurn = transform.GetChild(0).gameObject;
+			autoPlay = transform.GetChild(1).gameObject;
+			finishSelecting = transform.GetChild(2).gameObject;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
 	}
 
 	// Update is called once per frame
@@ -65,7 +74,28 @@ public class InputModeDisplay : MonoBehaviour {
 
 	public void Advance()
 	{
+		GameplayManager gm = GameplayManager.instance;
+		if((gm.coinsShop.AnyBuyable()) ||
+		   (gm.attackShop.AnyBuyable()) ||
+		   (gm.hammersShop.AnyBuyable()) ||
+		   (gm.scienceShop.AnyBuyable()))
+		{
+			skipConfirmation.SetActive(true);
+		}
+		else
+		{
+			ForceAdvance();
+		}
+	}
+
+	public void ForceAdvance()
+	{
 		GameplayManager.instance.AdvancePhase();
+		skipConfirmation.SetActive(false);
+	}
+	public void CloseConfirmation()
+	{
+		skipConfirmation.SetActive(false);
 	}
 
 	public void FinishSelecting()
