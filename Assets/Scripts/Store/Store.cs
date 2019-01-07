@@ -36,13 +36,19 @@ public class Store
 		public int basePrice;
 	}
 	public List<StoreEntry> piles = new List<StoreEntry>();
-	public void AddPile(string name, int price)
+	public bool HasPile(string name)
 	{
 		foreach(StoreEntry pile in piles)
 		{
 			if(pile.name == name)
-				return;
+				return true;
 		}
+		return false;
+	}
+	public void AddPile(string name, int price)
+	{
+		if(HasPile(name))
+			return;
 		StoreEntry e = new StoreEntry();
 		e.name = name;
 		e.elements = new List<Buyable>();

@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 [CreateAssetMenu(menuName="Cards/BaseSpell", fileName="Spell")]
 public class Spell : Card
@@ -23,9 +25,9 @@ public class Spell : Card
         return new Color(255, 0, 255);
     }
 
-    public override void OnPlay()
+    public override IEnumerator OnPlay()
     {
-        base.OnPlay();
+        yield return base.OnPlay();
         GameplayManager gm = GameplayManager.instance;
         gm.energy -= energyCost;
         gm.energy += energy;

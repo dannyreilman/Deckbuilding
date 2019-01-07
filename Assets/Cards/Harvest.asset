@@ -8,15 +8,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c80714524bbffb143b484e7a5bd44b87, type: 3}
-  m_Name: Chapel
+  m_Script: {fileID: 11500000, guid: 282bcf6e943bd4b4dabb8f8fb3c77f6e, type: 3}
+  m_Name: Harvest
   m_EditorClassIdentifier: 
   tooltipTitle: 
   tooltip: 
-  cardname: Chapel
-  baseCost: 0
-  researchCost: 0
-  image: {fileID: 21300000, guid: 76a99e7aa444b934a9fcf1cc2bc9dc65, type: 3}
+  cardname: Harvest
+  baseCost: 3
+  researchCost: 2
+  image: {fileID: 0}
   p_card: {fileID: 0}
   coin: 0
   energy: 0
@@ -25,6 +25,6 @@ MonoBehaviour:
   hammers: 0
   science: 0
   energyCost: 1
-  type: Dominion
-  upTo: 1
-  howMany: 4
+  type: Core
+  fragments:
+  - {fileID: 11400000, guid: b80b2c36c72fc9f4f95ffc6b68627818, type: 2}

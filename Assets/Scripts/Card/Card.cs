@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Runtime.CompilerServices;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Card : ScriptableObject, Buyable
 {
@@ -49,7 +51,7 @@ public class Card : ScriptableObject, Buyable
 	{
 		if(CanPlay())
 		{
-			OnPlay();
+			CardMonobehaviour.instance.StartCoroutine(OnPlay());
 		}
 	}
 
@@ -78,10 +80,11 @@ public class Card : ScriptableObject, Buyable
         }
     }
 
-    public virtual void OnPlay()
+    public virtual IEnumerator OnPlay()
     {
         InputManager.instance.RegisterPlay();
         MoveTo(GameplayManager.instance.play);
+        yield break;
     }
 
     public virtual bool CanPlay()

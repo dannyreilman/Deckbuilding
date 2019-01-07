@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public abstract class SelectSpell: Spell
 {
+    public bool upTo;
     public abstract int SelectHowMany();
 
     public abstract void DoneSelecting(List<Card> selected);
@@ -16,17 +17,18 @@ public abstract class SelectSpell: Spell
         return new Zone[]{GameplayManager.instance.hand};
     }
 
-    public override void OnPlay()
+    public override IEnumerator OnPlay()
     {
         base.OnPlay();
-        InputManager.instance.Select(GetValidZones(), SelectHowMany(), DoneSelecting);
+        InputManager.instance.Select(GetValidZones(), SelectHowMany(), DoneSelecting, upTo);
+        yield break;
     }
 
     public override string GetDescription()
     {
         string to_return = "";
         to_return += base.GetDescription() + "\n";
-        to_return += "Select " + SelectHowMany() + " cards from";
+        to_return += "Select " + (upTo?" up to ":"") + SelectHowMany() + " cards from";
         Zone[] zones = GetValidZones();
         for(int i = 0; i < zones.Length; ++i)
         {

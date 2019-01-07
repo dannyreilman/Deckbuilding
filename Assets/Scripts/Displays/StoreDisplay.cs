@@ -40,6 +40,7 @@ public class StoreDisplay : MonoBehaviour
             }
         }
     }
+
     void Update()
     {
         if(toDisplay != null)

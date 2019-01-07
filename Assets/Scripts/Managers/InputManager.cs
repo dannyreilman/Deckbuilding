@@ -9,7 +9,8 @@ public class InputManager : MonoBehaviour
     {
         Dragging,
         Selecting,
-        Playing
+        Playing,
+        Animating
     }
     public InputMode currentMode;
     public int stepsLeft;
@@ -17,6 +18,7 @@ public class InputManager : MonoBehaviour
     public List<Card> selectedCards = new List<Card>();
     public delegate void FinishSelect(List<Card> selected);
     FinishSelect onFinishSelect;
+    public bool upTo;
 
     //Trigger a playing input (standard input)
     //if zones is null, defaults to hand, if howMany is -1, defaults to infinite
@@ -35,7 +37,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public void Select(Zone[] zones = null, int howMany = -1, FinishSelect onFinish_in = null)
+    public void Select(Zone[] zones = null, int howMany = -1, FinishSelect onFinish_in = null, bool upTo_in = false)
     {
         if(zones == null)
         {
@@ -49,12 +51,50 @@ public class InputManager : MonoBehaviour
         stepsLeft = Mathf.Min(howMany, totalPossible);
         currentMode = InputMode.Selecting;
         onFinishSelect = onFinish_in;
+        upTo = upTo_in;
         selectedCards = new List<Card>();
         foreach(PhysicalCard c in PhysicalCard.interactableCards)
         {
             UpdatePCard(c);
         }
     }
+
+    public void Animate()
+    {
+        currentMode = InputMode.Animating;
+        foreach(PhysicalCard c in PhysicalCard.interactableCards)
+        {
+            UpdatePCard(c);
+        }
+    }
+
+    void SelectEnd()
+    {
+        if(onFinishSelect != null)
+        {
+            onFinishSelect(selectedCards);
+        }
+
+        foreach(Card selected in selectedCards)
+        {
+            if(selected.p_card != null)
+            {
+                selected.p_card.Deselect();
+            }
+        }
+
+        selectedCards.Clear();
+        Play();
+    }
+
+    public void FinishSelecting()
+    {
+        if(upTo)
+        {
+            SelectEnd();
+        }
+    }
+
 
     public void SelectCard(Card c)
     {
@@ -66,32 +106,16 @@ public class InputManager : MonoBehaviour
         }
         else
         {
-            selectedCards.Add(c);
-            c.p_card.Select();
-            if(stepsLeft > 0)
+            if(stepsLeft != 0)
             {
-                --stepsLeft;
-                if(stepsLeft == 0)
+                selectedCards.Add(c);
+                c.p_card.Select();
+                if(stepsLeft > 0)
                 {
-                    if(onFinishSelect != null)
-                    {
-                        onFinishSelect(selectedCards);
-                    }
-
-                    foreach(Card selected in selectedCards)
-                    {
-                        if(selected.p_card != null)
-                        {
-                            selected.p_card.Deselect();
-                        }
-                    }
-
-                    selectedCards.Clear();
-                    Play();
+                    --stepsLeft;
                 }
             }
         }
-        Debug.Log(selectedCards.Count);
     }
 
     public void DeselectCard(Card c)
@@ -122,6 +146,9 @@ public class InputManager : MonoBehaviour
             p_card.attachedClick.onClick = p_card.card.PlayIfPlayable;
             p_card.attachedClick.onClick += ZoomDisplay.instance.Hide;
         break;
+        case InputMode.Animating:
+            p_card.attachedClick.onClick = ZoomDisplay.instance.Hide;
+        break;
         }
     }
 
@@ -151,8 +178,4 @@ public class InputManager : MonoBehaviour
             Destroy(this);
         }
     }
-
-
-
-
 }

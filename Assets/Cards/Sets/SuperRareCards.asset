@@ -8,8 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6041b6720f24dea4895dda012bcb4e0b, type: 3}
-  m_Name: BaseStore
+  m_Script: {fileID: 11500000, guid: 09885450e029cfe4d9917654fc18131a, type: 3}
+  m_Name: SuperRareCards
   m_EditorClassIdentifier: 
-  cardSet: {fileID: 11400000, guid: ef3527e699b503e4c8c0958e7c2cb66c, type: 2}
-  countEach: 50
+  cards: []
