@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -46,6 +47,9 @@ public class GameplayManager : MonoBehaviour
     public BlueprintSet researchBlueprintStarting;
     public EnemySet attackStarting;
 
+    public EnemySet commonEnemies;
+    public EnemySet rareEnemies;
+
     public CardSet commonCards;
     public CardSet rareCards;
     public CardSet superRareCards;
@@ -53,13 +57,14 @@ public class GameplayManager : MonoBehaviour
     [HideInInspector]
     public Phase currentPhase;
 
+    public int turnsUntilWave = 5;
+
     public static GameplayManager instance = null;
     void Awake()
     {
         if(instance == null || instance.Equals(null))
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
             hand = new PhysicalPile("hand", GameObject.Find("Hand").transform);
             play = new PhysicalPile("play", GameObject.Find("PlayZone").transform);
             GameObject.Find("Discard").GetComponent<ZoneDisplay>().Display(discard);
@@ -287,6 +292,31 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
+    public IEnumerator SpawnWave()
+    {
+        for(int i = 0; i < 3; ++i)
+        {
+            //Spawn common enemies
+            int chosen = Random.Range(0,commonEnemies.enemies.Length);
+            Store.StoreEntry storeEntry = new Store.StoreEntry();
+            Enemy e = commonEnemies.enemies[chosen].Clone();
+            attackShop.AddPile(e.GetName(), e.health);
+            attackShop.AddElement(e.Clone());
+        }
+
+        for(int i = 0; i < 2; ++i)
+        {
+            //Spawn rare enemies
+            int chosen = Random.Range(0,rareEnemies.enemies.Length);
+            Store.StoreEntry storeEntry = new Store.StoreEntry();
+            Enemy e = rareEnemies.enemies[chosen].Clone();
+            attackShop.AddPile(e.GetName(), e.health);
+            attackShop.AddElement(e.Clone());
+        }
+
+        yield return new WaitForSeconds(0.1f);
+    }
+
     public IEnumerator EndOfTurn()
     {
         InputManager.instance.Animate();
@@ -295,9 +325,20 @@ public class GameplayManager : MonoBehaviour
         foreach(Enemy e in activeEnemies)
         {
             e.DealAttack();
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.10f);
+        }
+        turnsUntilWave--;
+        if(turnsUntilWave <= 0)
+        {
+            yield return SpawnWave();
+            turnsUntilWave = 5;
         }
         yield return new WaitForSeconds(0.25f);
+        if(health <= 0)
+        {
+            Debug.Log("Defeat");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
         InputManager.instance.Play();
         yield return StartOfTurn();
     }

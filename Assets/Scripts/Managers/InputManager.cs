@@ -170,7 +170,6 @@ public class InputManager : MonoBehaviour
         if(instance == null || instance.Equals(null))
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
             Play();
         }
         else

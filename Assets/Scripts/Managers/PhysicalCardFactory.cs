@@ -20,7 +20,6 @@ public class PhysicalCardFactory : MonoBehaviour
         if(instance == null || instance.Equals(null))
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
