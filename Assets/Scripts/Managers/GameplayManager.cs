@@ -21,7 +21,8 @@ public class GameplayManager : MonoBehaviour
     public int attack;
     public int hammers;
     public int science;
-    public int health;
+    [HideInInspector]
+    public int health = 100;
 
     public List<Enemy> activeEnemies = new List<Enemy>();
 
@@ -100,7 +101,7 @@ public class GameplayManager : MonoBehaviour
             {
                 if(hand.cards[i] is Resource && ((Resource)hand.cards[i]).PlayAll())
                 {
-                    yield return hand.cards[i].OnPlay();
+                    yield return hand.cards[i].OnPlayWrapper();
                 }
             }
         }
@@ -111,7 +112,7 @@ public class GameplayManager : MonoBehaviour
     {
         if(currentPhase != Phase.Spending)
         {
-            if(!Input.GetKeyDown(KeyCode.Space) && InputManager.instance.currentMode == InputManager.InputMode.Playing)
+            if(InputManager.instance.currentMode == InputManager.InputMode.Playing && !InputManager.instance.inAnimation)
             {
                 bool autoPass = true;
                 foreach(Card c in hand.cards)
@@ -352,6 +353,7 @@ public class GameplayManager : MonoBehaviour
                         rareCards.cards.Length * rareWeight;
         float superRareEnd = rareEnd +
                              superRareCards.cards.Length * superRareWeight;
+        Debug.Log(superRareEnd);
         //In case there are no cards at all
         if(superRareEnd == 0)
             return null;
@@ -367,16 +369,19 @@ public class GameplayManager : MonoBehaviour
         if(chosen < commonEnd)
         {
             int chosenIndex = Mathf.FloorToInt(chosen / commonWeight);
+            Debug.Log(chosenIndex);
             return commonCards.cards[chosenIndex].Clone();
         }
         else if(chosen < rareEnd)
         {
-            int chosenIndex = Mathf.FloorToInt(chosen - commonEnd / rareWeight);
+            int chosenIndex = Mathf.FloorToInt((chosen - commonEnd) / rareWeight);
+            Debug.Log(chosenIndex);
             return rareCards.cards[chosenIndex].Clone();
         }
         else
         {
-            int chosenIndex = Mathf.FloorToInt(chosen - rareEnd / superRareEnd);
+            int chosenIndex = Mathf.FloorToInt((chosen - rareEnd) / superRareEnd);
+            Debug.Log(chosenIndex);
             return superRareCards.cards[chosenIndex].Clone();
         }
     }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class FragmentedSpell : Spell
 {
     public SpellFragment[] fragments;
-    public override IEnumerator OnPlay()
+    protected override IEnumerator OnPlay()
     {
         yield return base.OnPlay();
         foreach(SpellFragment sf in fragments)

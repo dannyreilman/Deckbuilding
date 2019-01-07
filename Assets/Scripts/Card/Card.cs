@@ -51,7 +51,7 @@ public class Card : ScriptableObject, Buyable
 	{
 		if(CanPlay())
 		{
-			CardMonobehaviour.instance.StartCoroutine(OnPlay());
+			CardMonobehaviour.instance.StartCoroutine(OnPlayWrapper());
 		}
 	}
 
@@ -80,7 +80,14 @@ public class Card : ScriptableObject, Buyable
         }
     }
 
-    public virtual IEnumerator OnPlay()
+    public IEnumerator OnPlayWrapper()
+    {
+        yield return OnPlay();
+        InputManager.instance.FinishPlay();
+    }
+
+
+    protected virtual IEnumerator OnPlay()
     {
         InputManager.instance.RegisterPlay();
         MoveTo(GameplayManager.instance.play);

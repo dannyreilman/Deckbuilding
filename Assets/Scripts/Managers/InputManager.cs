@@ -19,6 +19,8 @@ public class InputManager : MonoBehaviour
     public delegate void FinishSelect(List<Card> selected);
     FinishSelect onFinishSelect;
     public bool upTo;
+    [HideInInspector]
+    public bool inAnimation = false;
 
     //Trigger a playing input (standard input)
     //if zones is null, defaults to hand, if howMany is -1, defaults to infinite
@@ -154,6 +156,7 @@ public class InputManager : MonoBehaviour
 
     public void RegisterPlay()
     {
+        inAnimation = true;
         InputModeDisplay.instance.CloseConfirmation();
         if(stepsLeft != -1)
         {
@@ -164,6 +167,11 @@ public class InputManager : MonoBehaviour
                 Play();
             }
         }
+    }
+
+    public void FinishPlay()
+    {
+        inAnimation = false;
     }
 
     void Awake()

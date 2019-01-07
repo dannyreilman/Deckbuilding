@@ -53,7 +53,7 @@ public class Resource : Card
         return new Color(0, 1, 0);
     }
 
-    public override IEnumerator OnPlay()
+    protected override IEnumerator OnPlay()
     {
         yield return base.OnPlay();
         GameplayManager.instance.attack += attack;

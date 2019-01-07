@@ -17,7 +17,7 @@ public abstract class SelectSpell: Spell
         return new Zone[]{GameplayManager.instance.hand};
     }
 
-    public override IEnumerator OnPlay()
+    protected override IEnumerator OnPlay()
     {
         base.OnPlay();
         InputManager.instance.Select(GetValidZones(), SelectHowMany(), DoneSelecting, upTo);

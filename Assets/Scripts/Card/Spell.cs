@@ -25,7 +25,7 @@ public class Spell : Card
         return new Color(255, 0, 255);
     }
 
-    public override IEnumerator OnPlay()
+    protected override IEnumerator OnPlay()
     {
         yield return base.OnPlay();
         GameplayManager gm = GameplayManager.instance;
@@ -37,7 +37,7 @@ public class Spell : Card
         gm.coin += coin;
         for(int i = 0; i < cards; ++i)
         {
-            gm.DrawCard();
+            yield return gm.DrawCard();
         }
     }
 

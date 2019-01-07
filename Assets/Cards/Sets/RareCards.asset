@@ -11,4 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09885450e029cfe4d9917654fc18131a, type: 3}
   m_Name: RareCards
   m_EditorClassIdentifier: 
-  cards: []
+  cards:
+  - {fileID: 11400000, guid: 335c5f56d019eca4986e4124bf83f429, type: 2}
