@@ -8,9 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09885450e029cfe4d9917654fc18131a, type: 3}
-  m_Name: RareCards
+  m_Script: {fileID: 11500000, guid: 50761399d1b46024ba6ed2e1742c6ecf, type: 3}
+  m_Name: Empty
   m_EditorClassIdentifier: 
-  cards:
-  - {fileID: 11400000, guid: 335c5f56d019eca4986e4124bf83f429, type: 2}
-  - {fileID: 11400000, guid: c99675f7024514843921d1b878cae692, type: 2}
+  blueprints: []

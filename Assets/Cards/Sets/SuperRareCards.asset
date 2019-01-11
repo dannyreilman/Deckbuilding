@@ -11,4 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09885450e029cfe4d9917654fc18131a, type: 3}
   m_Name: SuperRareCards
   m_EditorClassIdentifier: 
-  cards: []
+  cards:
+  - {fileID: 11400000, guid: a84b8cc9a739e294fbbe941d018eedd0, type: 2}

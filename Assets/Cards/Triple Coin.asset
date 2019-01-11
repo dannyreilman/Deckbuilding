@@ -8,21 +8,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef6c712adfd828e4f9764e812fb74a67, type: 3}
-  m_Name: Scratch
+  m_Script: {fileID: 11500000, guid: 88dd5cd108c6f974f8dec187a2316583, type: 3}
+  m_Name: Triple Coin
   m_EditorClassIdentifier: 
   tooltipTitle: 
   tooltip: 
-  cardname: Scratch
-  baseCost: 4
-  researchCost: 2
-  image: {fileID: 21300000, guid: c8585964a6da7294b9940dc1a96bb944, type: 3}
+  cardname: Triple Coin
+  baseCost: 8
+  researchCost: 4
+  image: {fileID: 21300000, guid: fcf3f50c807626848ae06841f652ada6, type: 3}
   p_card: {fileID: 0}
-  coin: 0
-  energy: 1
-  attack: 1
-  cards: 1
+  attack: 0
+  coin: 3
   hammers: 0
   science: 0
-  energyCost: 1
-  type: Feral
+  type: 

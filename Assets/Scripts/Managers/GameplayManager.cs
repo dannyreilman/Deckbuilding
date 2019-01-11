@@ -42,18 +42,18 @@ public class GameplayManager : MonoBehaviour
     }
 
     public BaseDeckEntry[] startingDeck;
-    public CardSet coinsStarting;
-    public BlueprintSet hammersStarting;
-    public CardSet researchCoinsStarting;
-    public BlueprintSet researchBlueprintStarting;
-    public EnemySet attackStarting;
 
     public EnemySet commonEnemies;
     public EnemySet rareEnemies;
 
+    public CardSet basicCards;
+
     public CardSet commonCards;
     public CardSet rareCards;
     public CardSet superRareCards;
+    public BlueprintSet commonBlueprints;
+    public BlueprintSet rareBlueprints;
+    public BlueprintSet superRareBlueprints;
 
     [HideInInspector]
     public Phase currentPhase;
@@ -198,58 +198,16 @@ public class GameplayManager : MonoBehaviour
             }
         }
 
-        if(coinsStarting != null)
+        foreach(Card c in basicCards.cards)
         {
-            foreach(Card c in coinsStarting.cards)
+            Store.StoreEntry storeEntry = new Store.StoreEntry();
+            coinsShop.AddPile(c.GetName(), c.baseCost);
+            for(int j = 0; j < INIT_CARDS_COUNT; ++j)
             {
-                Store.StoreEntry storeEntry = new Store.StoreEntry();
-                coinsShop.AddPile(c.cardname, c.baseCost);
-                for(int i = 0; i < INIT_CARDS_COUNT; ++i)
-                {
-                    coinsShop.AddElement(c.Clone());
-                }
+                coinsShop.AddElement(c.Clone());
             }
         }
 
-        if(hammersStarting != null)
-        {
-            foreach(Blueprint b in hammersStarting.blueprints)
-            {
-                Store.StoreEntry storeEntry = new Store.StoreEntry();
-                hammersShop.AddPile(b.GetName(), b.baseCost);
-                hammersShop.AddElement(b.Clone());
-            }
-        }
-
-        if(attackStarting != null)
-        {
-            foreach(Enemy e in attackStarting.enemies)
-            {
-                Store.StoreEntry storeEntry = new Store.StoreEntry();
-                attackShop.AddPile(e.GetName(), e.health);
-                attackShop.AddElement(e.Clone());
-            }
-        }
-
-        if(researchCoinsStarting != null)
-        {
-            foreach(Card c in researchCoinsStarting.cards)
-            {
-                Store.StoreEntry storeEntry = new Store.StoreEntry();
-                scienceShop.AddPile("Research " + c.GetName(), c.researchCost);
-                scienceShop.AddElement(new Research(c.Clone()));
-            }
-        }
-
-        if(researchBlueprintStarting != null)
-        {
-            foreach(Blueprint b in researchBlueprintStarting.blueprints)
-            {
-                Store.StoreEntry storeEntry = new Store.StoreEntry();
-                scienceShop.AddPile("Research " + b.GetName(), b.researchCost);
-                scienceShop.AddElement(new Research(b.Clone()));
-            }
-        }
         for(int i = 0; i < 4; ++i)
         {
             Card c = ChooseRandomCard();
@@ -265,6 +223,42 @@ public class GameplayManager : MonoBehaviour
             for(int j = 0; j < 5; ++j)
             {
                 coinsShop.AddElement(c.Clone());
+            }
+        }
+
+        for(int i = 0; i < 4; ++i)
+        {
+            Blueprint b = ChooseRandomBlueprint();
+            if(commonBlueprints.blueprints.Length + rareBlueprints.blueprints.Length + superRareBlueprints.blueprints.Length > 4)
+            {
+                while(hammersShop.HasPile(b.GetName()))
+                {
+                    b = ChooseRandomBlueprint();
+                }
+            }
+            Store.StoreEntry storeEntry = new Store.StoreEntry();
+            hammersShop.AddPile(b.GetName(), b.baseCost);
+            for(int j = 0; j < 5; ++j)
+            {
+                hammersShop.AddElement(b.Clone());
+            }
+        }
+
+        for(int i = 0; i < 4; ++i)
+        {
+            if(Random.Range(0, 2) == 1)
+            {
+                Blueprint b = ChooseRandomBlueprint();
+                Store.StoreEntry storeEntry = new Store.StoreEntry();
+                scienceShop.AddPile("Research " + b.GetName(), b.researchCost);
+                scienceShop.AddElement(new Research(b.Clone()));
+            }
+            else
+            {
+                Card c = ChooseRandomCard();
+                Store.StoreEntry storeEntry = new Store.StoreEntry();
+                scienceShop.AddPile("Research " + c.GetName(), c.researchCost);
+                scienceShop.AddElement(new Research(c.Clone()));
             }
         }
 
@@ -344,6 +338,14 @@ public class GameplayManager : MonoBehaviour
         yield return StartOfTurn();
     }
 
+    public void AddCardResearch(Card c)
+    {
+    }
+
+    public void AddBlueprintResearch(Blueprint b)
+    {
+    }
+
     public Card ChooseRandomCard(float commonWeight = 1.0f,
                                  float rareWeight = 0.5f,
                                  float superRareWeight = 0.1f)
@@ -383,6 +385,48 @@ public class GameplayManager : MonoBehaviour
             int chosenIndex = Mathf.FloorToInt((chosen - rareEnd) / superRareEnd);
             Debug.Log(chosenIndex);
             return superRareCards.cards[chosenIndex].Clone();
+        }
+    }
+
+    public Blueprint ChooseRandomBlueprint(float commonWeight = 1.0f,
+                                           float rareWeight = 0.5f,
+                                           float superRareWeight = 0.1f)
+    {
+        float commonEnd = commonBlueprints.blueprints.Length * commonWeight;
+        float rareEnd = commonEnd +
+                        rareBlueprints.blueprints.Length * rareWeight;
+        float superRareEnd = rareEnd +
+                             superRareBlueprints.blueprints.Length * superRareWeight;
+        Debug.Log(superRareEnd);
+        //In case there are no cards at all
+        if(superRareEnd == 0)
+            return null;
+        
+        float chosen = Random.Range(0, superRareEnd);
+
+        //Sometimes reroll to simulate exclusivity on the second argument
+        while(chosen == superRareEnd)
+        {
+            chosen = Random.Range(0, superRareEnd);
+        }
+        
+        if(chosen < commonEnd)
+        {
+            int chosenIndex = Mathf.FloorToInt(chosen / commonWeight);
+            Debug.Log(chosenIndex);
+            return commonBlueprints.blueprints[chosenIndex].Clone();
+        }
+        else if(chosen < rareEnd)
+        {
+            int chosenIndex = Mathf.FloorToInt((chosen - commonEnd) / rareWeight);
+            Debug.Log(chosenIndex);
+            return rareBlueprints.blueprints[chosenIndex].Clone();
+        }
+        else
+        {
+            int chosenIndex = Mathf.FloorToInt((chosen - rareEnd) / superRareEnd);
+            Debug.Log(chosenIndex);
+            return superRareBlueprints.blueprints[chosenIndex].Clone();
         }
     }
 }

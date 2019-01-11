@@ -2093,6 +2093,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 224325251923593138, guid: 2581206b23e88cd40a16fce64ddcdf79,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224325251923593138, guid: 2581206b23e88cd40a16fce64ddcdf79,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224325251923593138, guid: 2581206b23e88cd40a16fce64ddcdf79,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 240
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114982206497293724, guid: 2581206b23e88cd40a16fce64ddcdf79, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 2581206b23e88cd40a16fce64ddcdf79, type: 2}
@@ -4409,16 +4424,16 @@ MonoBehaviour:
     copies: 1
   - card: {fileID: 11400000, guid: 4bf7ec9378882d44eb68c7ab615de79b, type: 2}
     copies: 1
-  coinsStarting: {fileID: 11400000, guid: ef3527e699b503e4c8c0958e7c2cb66c, type: 2}
-  hammersStarting: {fileID: 0}
-  researchCoinsStarting: {fileID: 0}
-  researchBlueprintStarting: {fileID: 0}
-  attackStarting: {fileID: 0}
   commonEnemies: {fileID: 11400000, guid: f56f87dd7b1e39e4ea5ce9e50ab006c3, type: 2}
   rareEnemies: {fileID: 11400000, guid: 50353040b5e8c6248895db2cc6b6b536, type: 2}
+  basicCards: {fileID: 11400000, guid: ef3527e699b503e4c8c0958e7c2cb66c, type: 2}
   commonCards: {fileID: 11400000, guid: 4a0b2caf2b936e84ca2c5c7565a42e12, type: 2}
   rareCards: {fileID: 11400000, guid: d686e5c81ffe0eb47838b3e3d2181ff9, type: 2}
   superRareCards: {fileID: 11400000, guid: db9a5bddc29afdd44b22472726b0edf5, type: 2}
+  commonBlueprints: {fileID: 11400000, guid: ea0f1f9f709a5e643a3c23a744edffbf, type: 2}
+  rareBlueprints: {fileID: 11400000, guid: b8f070a4edcc1a44396e8fe590c84203, type: 2}
+  superRareBlueprints: {fileID: 11400000, guid: b8f070a4edcc1a44396e8fe590c84203,
+    type: 2}
   currentPhase: 0
   turnsUntilWave: 5
 --- !u!114 &1735055244
@@ -4436,6 +4451,7 @@ MonoBehaviour:
   stepsLeft: 0
   selectedCards: []
   upTo: 0
+  inAnimation: 0
 --- !u!114 &1735055245
 MonoBehaviour:
   m_ObjectHideFlags: 0
