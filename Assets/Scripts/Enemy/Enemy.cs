@@ -2,42 +2,42 @@ using UnityEngine;
 using System.Runtime.CompilerServices;
 
 [CreateAssetMenu(menuName="Enemies/BasicEnemy", fileName="Spell")]
-public class Enemy : ScriptableObject, Buyable
+public class Enemy : Buyable
 {
     public string tooltipTitle;
     public string tooltip;
 
-    public string GetTooltip()
+    public override string GetTooltip()
     {
         return tooltip;
     }
 
-    public string GetTooltipTitle()
+    public override string GetTooltipTitle()
     {
         return tooltipTitle;
     }
     public string enemyName;
     public int health;
     public int attack;
-    public string GetName()
+    public override string GetName()
     {
         return enemyName;
     }
-    public virtual string GetTypename()
+    public override string GetTypename()
     {
         return "Enemy";
     }
-    public virtual Color GetTypeColor()
+    public override Color GetTypeColor()
     {
         return new Color(1, 0, 0);
     }
     public Sprite image;
-    public Sprite GetDisplay()
+    public override Sprite GetDisplay()
     {
         return image;
     }
 
-    public void Buy()
+    public override void Buy()
     {
         GameplayManager.instance.activeEnemies.Remove(this);
     }
@@ -46,7 +46,7 @@ public class Enemy : ScriptableObject, Buyable
         GameplayManager.instance.health -= attack;
     }
 
-    public virtual string GetDescription()
+    public override string GetDescription()
     {
         return "";
     }

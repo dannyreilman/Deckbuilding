@@ -6,42 +6,39 @@ using System.Runtime.CompilerServices;
 public class Research: Buyable
 {
     const int RESEARCH_COUNT = 5;
-    Buyable b = null;
-    public Research(Card c_in)
+    public Buyable b;
+
+    public void Init(Buyable toResearch)
     {
-        b = c_in;
-    }
-    public Research(Blueprint b_in)
-    {
-        b = b_in;
+        b = toResearch;
     }
 
-    public string GetTooltip()
+    public override string GetTooltip()
     {
         return b.GetTooltip();
     }
 
-    public string GetTooltipTitle()
+    public override string GetTooltipTitle()
     {
         return b.GetTooltipTitle();
     }
-    public string GetName()
+    public override string GetName()
     {
         return "Research " + b.GetName();
     }
-    public virtual string GetTypename()
+    public override string GetTypename()
     {
         return b.GetTypename();
     }
-    public virtual Color GetTypeColor()
+    public override Color GetTypeColor()
     {
         return b.GetTypeColor();
     }
-    public Sprite GetDisplay()
+    public override Sprite GetDisplay()
     {
         return b.GetDisplay();
     }
-    public void Buy()
+    public override void Buy()
     {
         if(b is Card)
         {
@@ -60,7 +57,7 @@ public class Research: Buyable
         }
     }
 
-    public virtual string GetDescription()
+    public override string GetDescription()
     {
         return "Add " + b.GetName() + " to your shop. Its text is\n\n" + b.GetDescription();
     }

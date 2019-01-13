@@ -251,14 +251,17 @@ public class GameplayManager : MonoBehaviour
                 Blueprint b = ChooseRandomBlueprint();
                 Store.StoreEntry storeEntry = new Store.StoreEntry();
                 scienceShop.AddPile("Research " + b.GetName(), b.researchCost);
-                scienceShop.AddElement(new Research(b.Clone()));
+                Research created = (Research)ScriptableObject.CreateInstance("Research");
+                created.Init(b.Clone());
+                scienceShop.AddElement(created);
             }
             else
             {
                 Card c = ChooseRandomCard();
                 Store.StoreEntry storeEntry = new Store.StoreEntry();
                 scienceShop.AddPile("Research " + c.GetName(), c.researchCost);
-                scienceShop.AddElement(new Research(c.Clone()));
+                Research created = (Research)ScriptableObject.CreateInstance("Research");
+                created.Init(c.Clone());
             }
         }
 

@@ -1,12 +1,12 @@
 using UnityEngine;
-public interface Buyable
+public abstract class Buyable : ScriptableObject
 {
-    void Buy();
-    Sprite GetDisplay();
-    string GetName();
-    string GetDescription();
-    string GetTypename();
-    Color GetTypeColor();
-    string GetTooltip();
-    string GetTooltipTitle();
+    public abstract void Buy();
+    public abstract Sprite GetDisplay();
+    public abstract string GetName();
+    public abstract string GetDescription();
+    public abstract string GetTypename();
+    public abstract Color GetTypeColor();
+    public abstract string GetTooltip();
+    public abstract string GetTooltipTitle();
 }

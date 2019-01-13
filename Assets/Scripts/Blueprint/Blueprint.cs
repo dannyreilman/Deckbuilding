@@ -2,47 +2,47 @@
 using System.Runtime.CompilerServices;
 
 [CreateAssetMenu(menuName="Blueprints/Blueprint", fileName="Blueprint")]
-public class Blueprint : ScriptableObject, Buyable
+public class Blueprint : Buyable
 {
 
     public string tooltipTitle;
     public string tooltip;
 
-    public string GetTooltip()
+    public override string GetTooltip()
     {
         return tooltip;
     }
 
-    public string GetTooltipTitle()
+    public override string GetTooltipTitle()
     {
         return tooltipTitle;
     }
     public string blueprintName;
     public int baseCost;
     public int researchCost;
-    public string GetName()
+    public override string GetName()
     {
         return blueprintName;
     }
-    public virtual string GetTypename()
+    public override string GetTypename()
     {
         return "Blueprint";
     }
-    public virtual Color GetTypeColor()
+    public override Color GetTypeColor()
     {
         return new Color(1, 0.6f, 0);
     }
     public Sprite image;
-    public Sprite GetDisplay()
+    public override Sprite GetDisplay()
     {
         return image;
     }
-    public void Buy()
+    public override void Buy()
     {
         GameplayManager.instance.built.Add(this);
     }
 
-    public virtual string GetDescription()
+    public override string GetDescription()
     {
         return "";
     }

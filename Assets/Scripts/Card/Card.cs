@@ -3,42 +3,42 @@ using System.Runtime.CompilerServices;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Card : ScriptableObject, Buyable
+public class Card : Buyable
 {
 
     public string tooltipTitle;
     public string tooltip;
 
-    public string GetTooltip()
+    public override string GetTooltip()
     {
         return tooltip;
     }
 
-    public string GetTooltipTitle()
+    public override string GetTooltipTitle()
     {
         return tooltipTitle;
     }
     public string cardname;
     public int baseCost;
     public int researchCost;
-    public string GetName()
+    public override string GetName()
     {
         return cardname;
     }
-    public virtual string GetTypename()
+    public override string GetTypename()
     {
         return "";
     }
-    public virtual Color GetTypeColor()
+    public override Color GetTypeColor()
     {
         return new Color(255, 255, 255);
     }
     public Sprite image;
-    public Sprite GetDisplay()
+    public override Sprite GetDisplay()
     {
         return image;
     }
-    public void Buy()
+    public override void Buy()
     {
         MoveTo(GameplayManager.instance.discard);
     }
@@ -60,7 +60,7 @@ public class Card : ScriptableObject, Buyable
         return zone;
     }
 
-    public virtual string GetDescription()
+    public override string GetDescription()
     {
         return "";
     }
