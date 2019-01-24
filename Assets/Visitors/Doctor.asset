@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5481b747390cf54fba099b9c517cba7, type: 3}
+  m_Name: Doctor
+  m_EditorClassIdentifier: 
+  blurb: (TEST)Hey yo I'm a doctor let me heal ya up.
+  sprite: {fileID: 0}
+  options:
+  - {fileID: 11400000, guid: dd5417c9bc0885f4a8ebdf9c6fb19d15, type: 2}
+  - {fileID: 11400000, guid: d7ccdc45e4543794488b5e77aeb3abcd, type: 2}
+  - {fileID: 11400000, guid: 5980d425a216c0f4cbf5dc176afb870f, type: 2}

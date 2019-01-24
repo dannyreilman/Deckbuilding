@@ -8,13 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5481b747390cf54fba099b9c517cba7, type: 3}
-  m_Name: Testing
+  m_Script: {fileID: 11500000, guid: 46e01545a58f6b84c88d82796b3b2d98, type: 3}
+  m_Name: DestroyDraw1
   m_EditorClassIdentifier: 
-  blurb: 
-  sprite: {fileID: 0}
-  options:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  description: Destroy one card from your hand and then draw a card.
+  howMany: 1
+  upTo: 0

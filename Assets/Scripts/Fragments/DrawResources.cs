@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[CreateAssetMenu(menuName="Cards/Fragments/DrawResources", fileName="New Spell")]
-public class DrawResources : SpellFragment
+[CreateAssetMenu(menuName="Fragments/DrawResources", fileName="New Spell")]
+public class DrawResources : EffectFragment
 {
     public int howMany;
     private IEnumerator Draw(List<Card> cards)
@@ -13,11 +13,9 @@ public class DrawResources : SpellFragment
             yield return new WaitForSeconds(0.1f);
             cards[i].MoveTo(GameplayManager.instance.hand);
         }
-        InputManager.instance.Play();
     }
-    public override IEnumerator Play()
+    public override IEnumerator DoEffect()
     {
-        InputManager.instance.Animate();
         List<Card> cardsToDraw = new List<Card>();
         for(int i = GameplayManager.instance.deck.cards.Count - 1; i >= 0; i--)
         {
