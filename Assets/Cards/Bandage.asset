@@ -28,3 +28,9 @@ MonoBehaviour:
   type: 
   fragments:
   - fragment: {fileID: 11400000, guid: c9226684cbdda4140be1fb467676b35c, type: 2}
+    int_args: 05000000
+    float_args:
+    - 0
+    string_args:
+    - 
+    bool_args: 00

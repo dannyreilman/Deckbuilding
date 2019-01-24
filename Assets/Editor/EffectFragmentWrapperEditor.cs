@@ -104,6 +104,7 @@ public class EffectFragmentWrapperEditor : PropertyDrawer
 			}
 		}
 		EditorGUI.EndProperty();
+		EditorUtility.SetDirty(property.serializedObject.targetObject);
     }
 
 	public override float GetPropertyHeight(SerializedProperty property, GUIContent label)

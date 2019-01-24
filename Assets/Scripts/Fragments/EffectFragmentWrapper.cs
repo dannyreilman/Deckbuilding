@@ -12,10 +12,13 @@ public class EffectFragmentWrapper: ISerializationCallbackReceiver
 
     //for serialization (Unity doesn't know what do do with System.Object)
 
-    [System.Serializable]
+    [SerializeField]
     int[] int_args;
+    [SerializeField]
     float[] float_args;
+    [SerializeField]
     string[] string_args;
+    [SerializeField]
     bool[] bool_args;
 
 
@@ -77,13 +80,13 @@ public class EffectFragmentWrapper: ISerializationCallbackReceiver
         {
             EffectFragment.Type[] types = fragment.GetArgumentTypes();
             arguments = new System.Object[types.Length];
-            if(int_args == null || int_args.Length != types.Length)
+            if(int_args == null)
                 int_args = new int[types.Length];
-            if(float_args == null || float_args.Length != types.Length)
+            if(float_args == null)
                 float_args = new float[types.Length];          
-            if(string_args == null || string_args.Length != types.Length)
+            if(string_args == null)
                 string_args = new string[types.Length];        
-            if(bool_args == null || bool_args.Length != types.Length)
+            if(bool_args == null)
                 bool_args = new bool[types.Length];
 
             for(int i = 0; i < types.Length; ++i)
@@ -91,6 +94,7 @@ public class EffectFragmentWrapper: ISerializationCallbackReceiver
                 switch(types[i])
                 {
                     case EffectFragment.Type.Integer:
+                        Debug.Log("Reading " + int_args[i]);
                         arguments[i] = (object)int_args[i];
                         break;
                     case EffectFragment.Type.Float:
