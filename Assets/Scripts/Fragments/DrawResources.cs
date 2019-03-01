@@ -14,13 +14,13 @@ public class DrawResources : EffectFragment
             cards[i].MoveTo(GameplayManager.instance.hand);
         }
     }
-    public override IEnumerator DoEffect()
+    public override IEnumerator DoEffectFragment()
     {
         List<Card> cardsToDraw = new List<Card>();
         for(int i = GameplayManager.instance.deck.cards.Count - 1; i >= 0; i--)
         {
             Card c = GameplayManager.instance.deck.cards[i];
-            if(c is Resource)
+            if(c.IsType("Resource"))
             {
                 cardsToDraw.Add(c);
                 if(cardsToDraw.Count >= howMany)
@@ -34,7 +34,7 @@ public class DrawResources : EffectFragment
         for(int i = GameplayManager.instance.discard.cards.Count - 1; i >= 0; i--)
         {
             Card c = GameplayManager.instance.discard.cards[i];
-            if(c is Resource)
+            if(c.IsType("Resource"))
             {
                 cardsToDraw.Add(c);
                 if(cardsToDraw.Count >= howMany)

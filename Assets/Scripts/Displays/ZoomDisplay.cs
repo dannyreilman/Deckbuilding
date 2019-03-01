@@ -45,15 +45,15 @@ public class ZoomDisplay : MonoBehaviour {
 	public void Show(Buyable b)
 	{
 		visibleObjects.SetActive(true);
-		image.sprite = b.GetDisplay();
-		title.text = b.GetName();
-		cardText.text = b.GetDescription();
+		image.sprite = b.image;
+		title.text = b.name;
+		cardText.text = b.description;
 
-		if(b.GetTooltip() != "" || b.GetTooltipTitle() != "")
+		if(b.tooltip != "" || b.tooltipTitle != "")
 		{
 			tooltipBox.SetActive(true);
-			tooltipBox.transform.GetChild(1).GetComponentInChildren<Text>().text = b.GetTooltipTitle();
-			tooltipBox.transform.GetChild(2).GetComponentInChildren<Text>().text = b.GetTooltip();
+			tooltipBox.transform.GetChild(1).GetComponentInChildren<Text>().text = b.tooltipTitle;
+			tooltipBox.transform.GetChild(2).GetComponentInChildren<Text>().text = b.tooltip;
 		}
 		else
 		{	
@@ -61,7 +61,7 @@ public class ZoomDisplay : MonoBehaviour {
 		}
 
 		try{
-			int cost = ((Spell)b).energyCost;
+			int cost = ((Card)b).energyCost;
 			if(cost != 0)
 			{
 				cardBanner.SetActive(true);
@@ -77,8 +77,8 @@ public class ZoomDisplay : MonoBehaviour {
 			cardBanner.SetActive(false);
 		}
 		
-		typeBanner.color = b.GetTypeColor();
-		typeBanner.GetComponentInChildren<Text>().text = b.GetTypename();
+		typeBanner.color = b.typeColor;
+		typeBanner.GetComponentInChildren<Text>().text = b.typeName;
 
 	}
 }

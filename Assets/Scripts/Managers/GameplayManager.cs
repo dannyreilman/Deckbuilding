@@ -5,15 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour
 {
+
     public const int INIT_CARDS_COUNT = 50;
     public ShuffledPile deck = new ShuffledPile("deck");
     public Pile discard = new Pile("discard");
     public Pile destroyedCards = new Pile("destroyed");
-    public Store coinsShop = new Store("coins", Resource.Type.coin);
-    public Store hammersShop = new Store("hammers", Resource.Type.hammers, true);
+    public Store coinsShop = new Store("coins", Store.Type.coin);
+    public Store hammersShop = new Store("hammers", Store.Type.hammers, true);
     public List<Blueprint> built = new List<Blueprint>();
-    public Store scienceShop = new Store("science", Resource.Type.science, true);
-    public EnemyStore attackShop = new EnemyStore("enemies", Resource.Type.attack);
+    public Store scienceShop = new Store("science", Store.Type.science, true);
+    public EnemyStore attackShop = new EnemyStore("enemies", Store.Type.attack);
     public PhysicalPile play;
     public PhysicalPile hand;
     public int energy;
@@ -29,8 +30,7 @@ public class GameplayManager : MonoBehaviour
     public enum Phase
     {
         Visitor,
-        Spells,
-        Resources,
+        Cards,
         Spending
     }
 
@@ -95,11 +95,11 @@ public class GameplayManager : MonoBehaviour
 
     IEnumerator Autoplay()
     {
-        if(currentPhase == Phase.Resources)
+        if(currentPhase == Phase.Cards)
         {
             for(int i = hand.cards.Count - 1; i >= 0; --i)
             {
-                if(hand.cards[i] is Resource && ((Resource)hand.cards[i]).PlayAll())
+                if(hand.cards[i].IsType("Resource"))
                 {
                     yield return hand.cards[i].OnPlayWrapper();
                 }
@@ -110,9 +110,9 @@ public class GameplayManager : MonoBehaviour
 
     void Update()
     {
-        if(currentPhase != Phase.Spending)
+        if(currentPhase == Phase.Cards)
         {
-            if(InputManager.instance.currentMode == InputManager.InputMode.Playing && !InputManager.instance.inAnimation)
+            if(!InputManager.instance.doingEffect)
             {
                 bool autoPass = true;
                 foreach(Card c in hand.cards)
@@ -133,12 +133,9 @@ public class GameplayManager : MonoBehaviour
         switch(currentPhase)
         {
             case Phase.Visitor:
-                currentPhase = Phase.Spells;
+                currentPhase = Phase.Cards;
                 break;
-            case Phase.Spells:
-                currentPhase = Phase.Resources;
-                break;
-            case Phase.Resources:
+            case Phase.Cards:
                 currentPhase = Phase.Spending;
                 break;
             case Phase.Spending:
@@ -150,7 +147,6 @@ public class GameplayManager : MonoBehaviour
 
     public IEnumerator DrawCard()
     {
-        InputManager.instance.Animate();
         yield return new WaitForSeconds(0.025f);
         if(deck.cards.Count == 0)
         {
@@ -201,7 +197,7 @@ public class GameplayManager : MonoBehaviour
         foreach(Card c in basicCards.cards)
         {
             Store.StoreEntry storeEntry = new Store.StoreEntry();
-            coinsShop.AddPile(c.GetName(), c.baseCost);
+            coinsShop.AddPile(c.name, c.baseCost);
             for(int j = 0; j < INIT_CARDS_COUNT; ++j)
             {
                 coinsShop.AddElement(c.Clone());
@@ -213,13 +209,13 @@ public class GameplayManager : MonoBehaviour
             Card c = ChooseRandomCard();
             if(commonCards.cards.Length + rareCards.cards.Length + superRareCards.cards.Length > 4)
             {
-                while(coinsShop.HasPile(c.GetName()))
+                while(coinsShop.HasPile(c.name))
                 {
                     c = ChooseRandomCard();
                 }
             }
             Store.StoreEntry storeEntry = new Store.StoreEntry();
-            coinsShop.AddPile(c.GetName(), c.baseCost);
+            coinsShop.AddPile(c.name, c.baseCost);
             for(int j = 0; j < 5; ++j)
             {
                 coinsShop.AddElement(c.Clone());
@@ -231,26 +227,27 @@ public class GameplayManager : MonoBehaviour
             Blueprint b = ChooseRandomBlueprint();
             if(commonBlueprints.blueprints.Length + rareBlueprints.blueprints.Length + superRareBlueprints.blueprints.Length > 4)
             {
-                while(hammersShop.HasPile(b.GetName()))
+                while(hammersShop.HasPile(b.name))
                 {
                     b = ChooseRandomBlueprint();
                 }
             }
             Store.StoreEntry storeEntry = new Store.StoreEntry();
-            hammersShop.AddPile(b.GetName(), b.baseCost);
+            hammersShop.AddPile(b.name, b.baseCost);
             for(int j = 0; j < 5; ++j)
             {
                 hammersShop.AddElement(b.Clone());
             }
         }
 
+        /* 
         for(int i = 0; i < 4; ++i)
         {
             if(Random.Range(0, 2) == 1)
             {
                 Blueprint b = ChooseRandomBlueprint();
                 Store.StoreEntry storeEntry = new Store.StoreEntry();
-                scienceShop.AddPile("Research " + b.GetName(), b.researchCost);
+                scienceShop.AddPile("Research " + b.name, b.researchCost);
                 Research created = (Research)ScriptableObject.CreateInstance("Research");
                 created.Init(b.Clone());
                 scienceShop.AddElement(created);
@@ -259,11 +256,12 @@ public class GameplayManager : MonoBehaviour
             {
                 Card c = ChooseRandomCard();
                 Store.StoreEntry storeEntry = new Store.StoreEntry();
-                scienceShop.AddPile("Research " + c.GetName(), c.researchCost);
+                scienceShop.AddPile("Research " + c.name, c.researchCost);
                 Research created = (Research)ScriptableObject.CreateInstance("Research");
                 created.Init(c.Clone());
             }
         }
+        */
 
         health = 100;
         yield return StartOfTurn();
@@ -298,7 +296,7 @@ public class GameplayManager : MonoBehaviour
             int chosen = Random.Range(0,commonEnemies.enemies.Length);
             Store.StoreEntry storeEntry = new Store.StoreEntry();
             Enemy e = commonEnemies.enemies[chosen].Clone();
-            attackShop.AddPile(e.GetName(), e.health);
+            attackShop.AddPile(e.name, e.health);
             attackShop.AddElement(e.Clone());
         }
 
@@ -308,7 +306,7 @@ public class GameplayManager : MonoBehaviour
             int chosen = Random.Range(0,rareEnemies.enemies.Length);
             Store.StoreEntry storeEntry = new Store.StoreEntry();
             Enemy e = rareEnemies.enemies[chosen].Clone();
-            attackShop.AddPile(e.GetName(), e.health);
+            attackShop.AddPile(e.name, e.health);
             attackShop.AddElement(e.Clone());
         }
 
@@ -317,7 +315,6 @@ public class GameplayManager : MonoBehaviour
 
     public IEnumerator EndOfTurn()
     {
-        InputManager.instance.Animate();
         DiscardHand();
         DiscardPlay();
         foreach(Enemy e in activeEnemies)

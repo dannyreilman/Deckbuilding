@@ -1,45 +1,120 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class InputManager : MonoBehaviour
 {
     public static InputManager instance = null;
     public enum InputMode
     {
+        None,
         Dragging,
         Selecting,
-        Playing,
-        Animating
+        Playing
     }
-    public InputMode currentMode;
-    public int stepsLeft;
-    public HashSet<Zone> validZones = new HashSet<Zone>();
-    public List<Card> selectedCards = new List<Card>();
-    public delegate void FinishSelect(List<Card> selected);
-    FinishSelect onFinishSelect;
-    public bool upTo;
+
+    class InputState
+    {
+        public InputMode mode;
+        public int stepsLeft;
+        public bool upTo;
+        public HashSet<Zone> validZones = new HashSet<Zone>();
+        public List<Card> collectedCards = new List<Card>();
+        public FinishInput onFinish;
+
+        //Saves the effect executing while the input was started.
+        //If Null, input was started without any effects
+        //Check against effect stack to see if input is valid
+        public Effect spawningEffect;
+    }
+
+    public delegate void FinishInput(List<Card> collected);
+
+    Stack<Effect> effectStack = new Stack<Effect>();
+    Stack<InputState> stateStack = new Stack<InputState>();
+
+    public InputMode currentMode
+    {
+        get
+        {
+            if(stateStack.Count != 0)
+                return stateStack.Peek().mode;
+            else
+                return InputMode.None;
+        }
+    }
+
+    public HashSet<Zone> currentValidZones
+    {
+        get
+        {
+            if(stateStack.Count != 0)
+                return stateStack.Peek().validZones;
+            else
+                return new HashSet<Zone>();
+        }
+    }
+
+    public bool currentUpTo
+    {
+        get
+        {
+            if(stateStack.Count != 0)
+                return stateStack.Peek().upTo;
+            else
+                return false;
+        }
+    }
+
+    public int currentStepsLeft
+    {
+        get
+        {
+            if(stateStack.Count != 0)
+                return stateStack.Peek().stepsLeft;
+            else
+                return 0;
+        }
+    }
+
     [HideInInspector]
-    public bool inAnimation = false;
+    public bool doingEffect
+    {
+        get
+        {
+            return effectStack.Count != 0;
+        }
+    }
+
+    public bool inputValid
+    {
+        get
+        {
+            if(stateStack.Count == 0)
+                return false;
+            
+            if(!doingEffect)
+                return true;
+            
+            //Don't allow input during an effect that didn't ask for the input
+            return stateStack.Peek().spawningEffect == effectStack.Peek();
+        }
+    }
 
     //Trigger a playing input (standard input)
     //if zones is null, defaults to hand, if howMany is -1, defaults to infinite
     public void Play(Zone[] zones = null, int howMany = -1)
     {
-        if(zones == null)
-        {
-            zones = new Zone[]{GameplayManager.instance.hand};
-        }
-        validZones = new HashSet<Zone>(zones);
-        stepsLeft = howMany;
-        currentMode = InputMode.Playing;
-        foreach(PhysicalCard c in PhysicalCard.interactableCards)
-        {
-            UpdatePCard(c);
-        }
+        AddNewInput(InputMode.Playing, zones, howMany);
     }
 
-    public void Select(Zone[] zones = null, int howMany = -1, FinishSelect onFinish_in = null, bool upTo_in = false)
+    public void Select(Zone[] zones = null, int howMany = -1, FinishInput onFinish_in = null, bool upTo_in = false)
+    {
+        AddNewInput(InputMode.Selecting, zones, howMany, onFinish_in, upTo_in);
+    }
+
+    void AddNewInput(InputMode toAdd, Zone[] zones = null, int howMany = -1, FinishInput onFinish_in = null, bool upTo_in = false)
     {
         if(zones == null)
         {
@@ -50,71 +125,77 @@ public class InputManager : MonoBehaviour
         {
             totalPossible += z.GetCount();
         }
-        stepsLeft = Mathf.Min(howMany, totalPossible);
-        currentMode = InputMode.Selecting;
-        onFinishSelect = onFinish_in;
-        upTo = upTo_in;
-        selectedCards = new List<Card>();
+        InputState newState = new InputState();
+        newState.validZones = new HashSet<Zone>(zones);
+        newState.stepsLeft = howMany;
+        newState.mode = toAdd;
+        newState.onFinish = onFinish_in;
+        newState.upTo = upTo_in;
+        stateStack.Push(newState);
+
         foreach(PhysicalCard c in PhysicalCard.interactableCards)
         {
             UpdatePCard(c);
         }
     }
 
-    public void Animate()
+    void PopInputState()
     {
-        currentMode = InputMode.Animating;
-        foreach(PhysicalCard c in PhysicalCard.interactableCards)
+        if(stateStack.Peek().onFinish != null)
         {
-            UpdatePCard(c);
-        }
-    }
-
-    void SelectEnd()
-    {
-        if(onFinishSelect != null)
-        {
-            onFinishSelect(selectedCards);
+            stateStack.Peek().onFinish(stateStack.Peek().collectedCards);
         }
 
-        foreach(Card selected in selectedCards)
+        switch(stateStack.Peek().mode)
         {
-            if(selected.p_card != null)
-            {
-                selected.p_card.Deselect();
-            }
+            case InputMode.Selecting:
+                foreach(Card selected in stateStack.Peek().collectedCards)
+                {
+                    if(selected.p_card != null)
+                    {
+                        selected.p_card.Deselect();
+                    }
+                }
+                break;
+            default:
+            //Do nothing
+                break;
         }
 
-        selectedCards.Clear();
-        Play();
+        stateStack.Pop();
+        if(stateStack.Count == 0)
+        {
+            //Default to base play
+            Play();
+        }
     }
 
     public void FinishSelecting()
     {
-        if(upTo)
+        if(stateStack.Peek().upTo || stateStack.Peek().stepsLeft == 0)
         {
-            SelectEnd();
+            PopInputState();
         }
     }
 
 
     public void SelectCard(Card c)
     {
-        if(selectedCards.Contains(c))
+        if(stateStack.Peek().collectedCards.Contains(c))
         {
-            selectedCards.Remove(c);
+            stateStack.Peek().collectedCards.Remove(c);
             c.p_card.Deselect();
-            ++stepsLeft;
+            ++stateStack.Peek().stepsLeft;
         }
         else
         {
-            if(stepsLeft != 0)
+            if(stateStack.Peek().stepsLeft != 0)
             {
-                selectedCards.Add(c);
+                stateStack.Peek().collectedCards.Add(c);
                 c.p_card.Select();
-                if(stepsLeft > 0)
+                if(stateStack.Peek().stepsLeft > 0)
                 {
-                    --stepsLeft;
+                    --stateStack.Peek().stepsLeft;
                 }
             }
         }
@@ -122,12 +203,12 @@ public class InputManager : MonoBehaviour
 
     public void DeselectCard(Card c)
     {
-        selectedCards.Remove(c);
+        stateStack.Peek().collectedCards.Remove(c);
     }
 
     public void ClearSelection()
     {
-        selectedCards.Clear();
+        stateStack.Peek().collectedCards.Clear();
     }
 
     public void UpdatePCard(PhysicalCard p_card)
@@ -140,38 +221,45 @@ public class InputManager : MonoBehaviour
         case InputMode.Selecting:
             {
                 Card cardToSelect = p_card.card;
-                p_card.attachedClick.onClick = (() => SelectCard(cardToSelect));
+                p_card.attachedClick.onClick = (() => {if(inputValid)SelectCard(cardToSelect);});
                 p_card.attachedClick.onClick += ZoomDisplay.instance.Hide;
             }
         break;
         case InputMode.Playing:
-            p_card.attachedClick.onClick = p_card.card.PlayIfPlayable;
+            p_card.attachedClick.onClick = (() => {if(inputValid)p_card.card.PlayIfPlayable();});
             p_card.attachedClick.onClick += ZoomDisplay.instance.Hide;
-        break;
-        case InputMode.Animating:
-            p_card.attachedClick.onClick = ZoomDisplay.instance.Hide;
         break;
         }
     }
 
     public void RegisterPlay()
     {
-        inAnimation = true;
         InputModeDisplay.instance.CloseConfirmation();
-        if(stepsLeft != -1)
+        if(stateStack.Peek().stepsLeft != -1)
         {
-            --stepsLeft;
-            if(stepsLeft == 0)
+            --stateStack.Peek().stepsLeft;
+            if(stateStack.Peek().stepsLeft == 0)
             {
-                //Return to default
-                Play();
+                PopInputState();
             }
         }
     }
 
-    public void FinishPlay()
+    public void PushEffect(Effect e)
     {
-        inAnimation = false;
+        effectStack.Push(e);
+    }
+
+    public IEnumerator PlayEffect(Effect e)
+    {
+        effectStack.Push(e);
+        yield return e.DoEffect();
+        PopEffect(e);
+    }
+
+    public void PopEffect(Effect e)
+    {
+        Assert.AreEqual(effectStack.Pop(), e);
     }
 
     void Awake()

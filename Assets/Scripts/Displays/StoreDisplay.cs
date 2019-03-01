@@ -29,7 +29,7 @@ public class StoreDisplay : MonoBehaviour
 
         for(int i = 0; i < toDisplay.piles.Count; ++i)
         {
-            transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = toDisplay.piles[i].elements[0].GetDisplay();
+            transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = toDisplay.piles[i].elements[0].image;
             transform.GetChild(i).GetChild(1).GetComponent<Text>().text = toDisplay.piles[i].price.ToString();
             transform.GetChild(i).GetChild(3).GetComponent<Text>().text = toDisplay.piles[i].name;
             transform.GetChild(i).GetChild(4).GetComponent<Text>().text = toDisplay.piles[i].elements.Count.ToString();

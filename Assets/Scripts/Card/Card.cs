@@ -3,41 +3,31 @@ using System.Runtime.CompilerServices;
 using System.Collections;
 using System.Collections.Generic;
 
+[CreateAssetMenu(menuName="Cards/BasicCard", fileName="New Card")]
 public class Card : Buyable
 {
-
-    public string tooltipTitle;
-    public string tooltip;
-
-    public override string GetTooltip()
+    public bool IsType(string type)
     {
-        return tooltip;
+        string[] types = type.Split(' ');
+        foreach(string typeToCheck in types)
+        {
+            if(type == typeToCheck)
+                return true;
+        }
+        return false;
     }
-
-    public override string GetTooltipTitle()
-    {
-        return tooltipTitle;
-    }
-    public string cardname;
     public int baseCost;
     public int researchCost;
-    public override string GetName()
-    {
-        return cardname;
-    }
-    public override string GetTypename()
-    {
-        return "";
-    }
-    public override Color GetTypeColor()
-    {
-        return new Color(255, 255, 255);
-    }
-    public Sprite image;
-    public override Sprite GetDisplay()
-    {
-        return image;
-    }
+    public int coin = 0;
+    public int energy = 0;
+
+    public int attack = 0;
+
+    public int cards = 0;
+    public int hammers = 0;
+    public int science = 0;
+    public int energyCost = 0;
+    
     public override void Buy()
     {
         MoveTo(GameplayManager.instance.discard);
@@ -60,9 +50,35 @@ public class Card : Buyable
         return zone;
     }
 
-    public override string GetDescription()
+    protected override string GetGeneratedDescription()
     {
-        return "";
+        string to_return = base.GetGeneratedDescription();
+        if(cards != 0)
+        {
+            to_return += "Draw " + cards.ToString() + " card" + (cards == 1?"":"s") + ".\n";
+        }
+        if(energy != 0)
+        {
+            to_return += "Gain " + energy.ToString() + " energy.\n";
+        }
+        if(attack != 0)
+        {
+            to_return += "Gain " + attack.ToString() + " attack.\n";
+        }
+        if(coin != 0)
+        {
+            to_return += "Gain " + coin.ToString() + " coin.\n";
+        }
+        if(hammers != 0)
+        {
+            to_return += "Gain " + hammers.ToString() + " hammer.\n";
+        }
+        if(science != 0)
+        {
+            to_return += "Gain " + science.ToString() + " science.";
+        }
+
+        return to_return;
     }
 
     public void MoveTo(Zone z)
@@ -83,26 +99,25 @@ public class Card : Buyable
     public IEnumerator OnPlayWrapper()
     {
         yield return OnPlay();
-        InputManager.instance.FinishPlay();
     }
 
-
+    BaseCardEffect onPlayEffect = null;
     protected virtual IEnumerator OnPlay()
     {
-        InputManager.instance.RegisterPlay();
-        MoveTo(GameplayManager.instance.play);
-        yield break;
+        if(onPlayEffect == null)
+            onPlayEffect = new BaseCardEffect(this);
+        yield return InputManager.instance.PlayEffect(onPlayEffect);
     }
 
     public virtual bool CanPlay()
     {
         return InputManager.instance.currentMode == InputManager.InputMode.Playing
-            && InputManager.instance.validZones.Contains(zone);
+            && InputManager.instance.currentValidZones.Contains(zone)
+            && GameplayManager.instance.energy >= energyCost;
     }
 
     protected virtual void HandleClone(Card clone)
     {
-
     }
 
     public Card Clone()

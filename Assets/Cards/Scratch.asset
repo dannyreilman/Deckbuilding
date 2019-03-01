@@ -8,16 +8,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef6c712adfd828e4f9764e812fb74a67, type: 3}
+  m_Script: {fileID: 11500000, guid: 111623d9eeaa2134bad805a54b6ba778, type: 3}
   m_Name: Scratch
   m_EditorClassIdentifier: 
-  tooltipTitle: 
-  tooltip: 
-  cardname: Scratch
-  baseCost: 4
-  researchCost: 2
   image: {fileID: 21300000, guid: c8585964a6da7294b9940dc1a96bb944, type: 3}
-  p_card: {fileID: 0}
+  name: Scratch
+  description_internal: 
+  typeName_internal: Feral Spell
+  tooltip: 
+  tooltipTitle: 
+  baseCost: 4
+  researchCost: 3
   coin: 0
   energy: 1
   attack: 1
@@ -25,4 +26,4 @@ MonoBehaviour:
   hammers: 0
   science: 0
   energyCost: 1
-  type: Feral
+  p_card: {fileID: 0}

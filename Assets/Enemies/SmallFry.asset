@@ -11,9 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390d9ce6fded9564f97f625d3b903741, type: 3}
   m_Name: SmallFry
   m_EditorClassIdentifier: 
-  tooltipTitle: 
+  image: {fileID: 21300000, guid: d19da3db4a837454aaa7fc71c15a2fe7, type: 3}
+  name: Small Fry
+  description: 
+  typeName_internal: Enemy
   tooltip: 
-  enemyName: Small Fry
+  tooltipTitle: 
   health: 1
   attack: 1
-  image: {fileID: 21300000, guid: d19da3db4a837454aaa7fc71c15a2fe7, type: 3}

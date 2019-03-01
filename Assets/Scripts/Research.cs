@@ -11,39 +11,20 @@ public class Research: Buyable
     public void Init(Buyable toResearch)
     {
         b = toResearch;
+        name = "Research " + toResearch.name;
     }
 
-    public override string GetTooltip()
+    protected override string GetGeneratedDescription()
     {
-        return b.GetTooltip();
+        return "Add " + b.name + " to your shop. Its text is\n\n" + b.description;
     }
 
-    public override string GetTooltipTitle()
-    {
-        return b.GetTooltipTitle();
-    }
-    public override string GetName()
-    {
-        return "Research " + b.GetName();
-    }
-    public override string GetTypename()
-    {
-        return b.GetTypename();
-    }
-    public override Color GetTypeColor()
-    {
-        return b.GetTypeColor();
-    }
-    public override Sprite GetDisplay()
-    {
-        return b.GetDisplay();
-    }
     public override void Buy()
     {
         if(b is Card)
         {
             Card card = (Card)b;
-            GameplayManager.instance.coinsShop.AddPile(card.GetName(), card.baseCost);
+            GameplayManager.instance.coinsShop.AddPile(card.name, card.baseCost);
             for(int i = 0; i < RESEARCH_COUNT; ++i)
             {
                 GameplayManager.instance.coinsShop.AddElement(card.Clone());
@@ -52,14 +33,9 @@ public class Research: Buyable
         else
         {
             Blueprint bp = (Blueprint)b;
-            GameplayManager.instance.hammersShop.AddPile(bp.GetName(), bp.baseCost);
+            GameplayManager.instance.hammersShop.AddPile(bp.name, bp.baseCost);
             GameplayManager.instance.hammersShop.AddElement(bp.Clone());
         }
-    }
-
-    public override string GetDescription()
-    {
-        return "Add " + b.GetName() + " to your shop. Its text is\n\n" + b.GetDescription();
     }
 
     protected virtual void HandleClone(Research clone)

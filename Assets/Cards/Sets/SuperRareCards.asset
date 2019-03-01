@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: SuperRareCards
   m_EditorClassIdentifier: 
   cards:
-  - {fileID: 11400000, guid: a84b8cc9a739e294fbbe941d018eedd0, type: 2}
+  - {fileID: 11400000, guid: 69ad9896fb1f2ad488ecc7c358a5fb7d, type: 2}

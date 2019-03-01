@@ -1,6 +1,6 @@
 public class EnemyStore : Store
 {
-    public EnemyStore(string name_in, Resource.Type type_in) 
+    public EnemyStore(string name_in, Store.Type type_in) 
         : base(name_in, type_in, true)
     {
         

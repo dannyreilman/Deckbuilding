@@ -118,26 +118,20 @@ public class PhysicalCard : MonoBehaviour
 		c.p_card= this;
 		card = c;
 		image.sprite = c.image;
-		text.text = c.cardname;
-		try{
-			int cost = ((Spell)c).energyCost;
-			if(cost != 0)
-			{
-				costBanner.SetActive(true);
-				costBanner.GetComponentInChildren<Text>().text = "Cost: " + cost.ToString() + " energy";
-			}
-			else
-			{
-				costBanner.SetActive(false);
-			}
+		text.text = c.name;
+		int cost = c.energyCost;
+		if(cost != 0)
+		{
+			costBanner.SetActive(true);
+			costBanner.GetComponentInChildren<Text>().text = "Cost: " + cost.ToString() + " energy";
 		}
-		catch(InvalidCastException e)
+		else
 		{
 			costBanner.SetActive(false);
 		}
 
-		typeBanner.color = c.GetTypeColor();
-		typeBanner.GetComponentInChildren<Text>().text = c.GetTypename();
+		typeBanner.color = c.typeColor;
+		typeBanner.GetComponentInChildren<Text>().text = c.typeName;
 	}
 
 }

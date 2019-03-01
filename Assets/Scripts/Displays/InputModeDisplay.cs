@@ -43,13 +43,8 @@ public class InputModeDisplay : MonoBehaviour {
 				nextTurn.SetActive(true);
 				switch(GameplayManager.instance.currentPhase)
 				{
-					case GameplayManager.Phase.Spells:
-						attachedText.text = "Play spells";
-						childText.text = "Advance To Resource Phase";
-						autoPlay.SetActive(false);
-						break;
-					case GameplayManager.Phase.Resources:
-						attachedText.text = "Play resources";
+					case GameplayManager.Phase.Cards:
+						attachedText.text = "Play cards";
 						childText.text = "Advance To Spending Phase";
 						autoPlay.SetActive(true);
 						break;
@@ -61,14 +56,16 @@ public class InputModeDisplay : MonoBehaviour {
 				}
 				break;
 			case InputManager.InputMode.Selecting:
-				attachedText.text = "Select " + (InputManager.instance.upTo?"up to ":"") + InputManager.instance.stepsLeft + " cards.";
+				attachedText.text = "Select " + (InputManager.instance.currentUpTo?"up to ":"") + InputManager.instance.currentStepsLeft + " cards.";
 				nextTurn.SetActive(false);
 				finishSelecting.SetActive(true);
 				break;
-			case InputManager.InputMode.Animating:
-				nextTurn.SetActive(false);
-				autoPlay.SetActive(false);
-			break;
+		}
+
+		if(!InputManager.instance.inputValid)
+		{
+			nextTurn.SetActive(false);
+			finishSelecting.SetActive(false);
 		}
 	}
 

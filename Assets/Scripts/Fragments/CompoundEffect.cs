@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[CreateAssetMenu(menuName="Cards/FragmentedSpell", fileName="New Spell")]
-public class FragmentedSpell : Spell
+public class CompoundEffect : Effect
 {
     public EffectFragmentWrapper[] fragments;
+
     bool initialized = false;
     void Initialize()
     {
@@ -16,23 +16,22 @@ public class FragmentedSpell : Spell
         initialized = true;
     }
 
-    protected override IEnumerator OnPlay()
+    public override IEnumerator DoEffect()
     {
         if(!initialized)
             Initialize();
-        yield return base.OnPlay();
+
         foreach(EffectFragmentWrapper sf in fragments)
         {
-            yield return sf.DoEffect();
+            yield return sf.DoEffectFragment();
         }
     }
 
-    public override string GetDescription()
+    public string GetDescription()
     {
         if(!initialized)
             Initialize();
         string to_return = "";
-        to_return += base.GetDescription();
 
         foreach(EffectFragmentWrapper sf in fragments)
         {

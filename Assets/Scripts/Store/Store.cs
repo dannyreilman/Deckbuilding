@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class Store
 {
-	public Resource.Type costType;
+	public enum Type
+	{
+		energy,
+		coin,
+		hammers,
+		science,
+		attack
+	}
+
+	public Store.Type costType;
 	public string name;
 	public bool partialBuy;
 	public virtual string GetName()
 	{
 		return name;
 	}
-	public Store(string name_in, Resource.Type costType_in, bool partialBuy_in = false)
+	public Store(string name_in, Store.Type costType_in, bool partialBuy_in = false)
 	{
 		name = name_in;
 		costType = costType_in;
@@ -69,8 +78,7 @@ public class Store
 	protected bool RightPhase()
 	{
 		GameplayManager gm = GameplayManager.instance;
-		return gm.currentPhase == GameplayManager.Phase.Spending
-			|| gm.currentPhase == GameplayManager.Phase.Resources;
+		return gm.currentPhase == GameplayManager.Phase.Spending;
 	}
 
 	public bool CanBuy(int index)
@@ -84,16 +92,16 @@ public class Store
 		GameplayManager gm = GameplayManager.instance;
 		switch(costType)
 		{
-			case Resource.Type.attack:
+			case Store.Type.attack:
 				return(RightPhase()
 					&& gm.attack >= piles[index].price);
-			case Resource.Type.coin:
+			case Store.Type.coin:
 				return(RightPhase()
 					&& gm.coin >= piles[index].price);
-			case Resource.Type.hammers:
+			case Store.Type.hammers:
 				return(RightPhase()
 					&& gm.hammers >= piles[index].price);
-			case Resource.Type.science:
+			case Store.Type.science:
 				return(RightPhase()
 					&& gm.science >= piles[index].price);
 			default:
@@ -109,22 +117,18 @@ public class Store
 		if(index < piles.Count
 		&& CanBuy(index))
 		{
-			if(gm.currentPhase == GameplayManager.Phase.Resources)
-			{
-				gm.AdvancePhase();
-			}
 			switch(costType)
 			{
-				case Resource.Type.attack:
+				case Store.Type.attack:
 					gm.attack -= piles[index].price;
 					break;
-				case Resource.Type.coin:
+				case Store.Type.coin:
 					gm.coin -= piles[index].price;
 					break;
-				case Resource.Type.hammers:
+				case Store.Type.hammers:
 					gm.hammers -= piles[index].price;
 					break;
-				case Resource.Type.science:
+				case Store.Type.science:
 					gm.science -= piles[index].price;
 					break;
 			}
@@ -141,60 +145,32 @@ public class Store
 		{
 			switch(costType)
 			{
-				case Resource.Type.attack:
+				case Store.Type.attack:
 				{
-					if(gm.attack > 0)
-					{
-						if(gm.currentPhase == GameplayManager.Phase.Resources)
-						{
-							gm.AdvancePhase();
-						}
-					}
 					StoreEntry entry = piles[index];
 					entry.price -= gm.attack;
 					piles[index] = entry;
 					gm.attack = 0;
 					break;
 				}
-				case Resource.Type.coin:
+				case Store.Type.coin:
 				{
-					if(gm.coin > 0)
-					{
-						if(gm.currentPhase == GameplayManager.Phase.Resources)
-						{
-							gm.AdvancePhase();
-						}
-					}
 					StoreEntry entry = piles[index];
 					entry.price -= gm.coin;
 					piles[index] = entry;
 					gm.coin = 0;
 					break;
 				}
-				case Resource.Type.hammers:
+				case Store.Type.hammers:
 				{
-					if(gm.hammers > 0)
-					{
-						if(gm.currentPhase == GameplayManager.Phase.Resources)
-						{
-							gm.AdvancePhase();
-						}
-					}
 					StoreEntry entry = piles[index];
 					entry.price -= gm.hammers;
 					piles[index] = entry;
 					gm.hammers = 0;
 					break;
 				}
-				case Resource.Type.science:
+				case Store.Type.science:
 				{
-					if(gm.science > 0)
-					{
-						if(gm.currentPhase == GameplayManager.Phase.Resources)
-						{
-							gm.AdvancePhase();
-						}
-					}
 					StoreEntry entry = piles[index];
 					entry.price -= gm.science;
 					piles[index] = entry;
@@ -209,7 +185,7 @@ public class Store
     {
         foreach(StoreEntry e in piles)
 		{
-			if(e.elements.Count == 0 || e.name == element.GetName())
+			if(e.elements.Count == 0 || e.name == element.name)
 			{
 				e.elements.Add(element);
 				return;

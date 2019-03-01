@@ -27,9 +27,9 @@ public class EffectFragmentWrapper: ISerializationCallbackReceiver
         fragment.AcceptArguments(arguments);
     }
 
-    public IEnumerator DoEffect()
+    public IEnumerator DoEffectFragment()
     {
-        yield return DoEffect();
+        yield return fragment.DoEffectFragment();
     }
 
     public string GetDescription()

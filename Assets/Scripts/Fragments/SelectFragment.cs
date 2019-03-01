@@ -19,7 +19,7 @@ public abstract class SelectFragment: EffectFragment
         CardMonobehaviour.instance.StartCoroutine(DoneSelecting(selected));
     }
 
-    public override IEnumerator DoEffect()
+    public override IEnumerator DoEffectFragment()
     {
         InputManager.instance.Select(GetValidZones(), howMany, DoneWrapper, upTo);
         yield break;

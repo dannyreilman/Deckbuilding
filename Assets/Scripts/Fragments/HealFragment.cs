@@ -7,7 +7,7 @@ using System;
 public class HealFragment : EffectFragment
 {
     int howMuch;
-    public override IEnumerator DoEffect()
+    public override IEnumerator DoEffectFragment()
     {
         GameplayManager.instance.health += howMuch;
         yield break;

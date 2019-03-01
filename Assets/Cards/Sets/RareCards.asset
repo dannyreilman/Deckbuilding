@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Name: RareCards
   m_EditorClassIdentifier: 
   cards:
-  - {fileID: 11400000, guid: 335c5f56d019eca4986e4124bf83f429, type: 2}
-  - {fileID: 11400000, guid: c99675f7024514843921d1b878cae692, type: 2}
+  - {fileID: 11400000, guid: 69ad9896fb1f2ad488ecc7c358a5fb7d, type: 2}

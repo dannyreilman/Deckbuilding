@@ -12,7 +12,7 @@ public abstract class EffectFragment : ScriptableObject
     }
 
     public virtual string GetDescription() {return "";}
-    public abstract IEnumerator DoEffect();
+    public abstract IEnumerator DoEffectFragment();
 
     public virtual void AcceptArguments(object[] arguments) {}
 

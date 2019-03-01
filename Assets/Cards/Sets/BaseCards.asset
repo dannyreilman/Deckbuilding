@@ -13,7 +13,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cards:
   - {fileID: 11400000, guid: 69ad9896fb1f2ad488ecc7c358a5fb7d, type: 2}
-  - {fileID: 11400000, guid: c0522023fa26fdc45a487500f51ce22e, type: 2}
-  - {fileID: 11400000, guid: 13872404bd9077641b1a1c111690fe17, type: 2}
-  - {fileID: 11400000, guid: 4bf7ec9378882d44eb68c7ab615de79b, type: 2}
-  - {fileID: 11400000, guid: 6c9aa9cf230339646987ad17145d40ac, type: 2}
