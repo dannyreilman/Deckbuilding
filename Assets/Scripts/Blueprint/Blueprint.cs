@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Runtime.CompilerServices;
 
 [CreateAssetMenu(menuName="Blueprints/Blueprint", fileName="Blueprint")]
-public class Blueprint : Buyable
+public class Blueprint : Researchable
 {
     public string blueprintName;
-    public int baseCost;
-    public int researchCost;
 
-    public override void Buy()
+    public override IEnumerator Buy()
     {
         GameplayManager.instance.built.Add(this);
+        yield break;
     }
 
+
+    //TODO: These should be IEnumerators
     public void OnStartOfTurn()
     {
     }

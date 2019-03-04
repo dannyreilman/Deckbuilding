@@ -11,15 +11,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111623d9eeaa2134bad805a54b6ba778, type: 3}
   m_Name: Coin
   m_EditorClassIdentifier: 
+  rarity: 0
   image: {fileID: 21300000, guid: 209cc81908b5873459ae7597ac18974d, type: 3}
   name: Coin
-  description: 
-  typeName_internal: Coin Resource
+  description_internal: 
+  typeName_internal: Basic Money
   tooltip: 
   tooltipTitle: 
-  cardname: Coin
-  baseCost: 4
-  researchCost: 2
+  buyCost: 0
+  researchCost: 0
+  autoplay: 1
   coin: 1
   energy: 0
   attack: 0

@@ -14,7 +14,7 @@ public class EnemyStore : Store
 
     public override void Buy(int index)
     {
-        if(RightPhase() && GameplayManager.instance.attack > 0)
+        if(CanBuy(index) && GameplayManager.instance.attack > 0)
         {
             ((Enemy)piles[index].elements[0]).DealAttack();
         }

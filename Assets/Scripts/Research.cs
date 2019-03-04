@@ -1,30 +1,29 @@
 using UnityEngine;
+using System.Collections;
 using System.Runtime.CompilerServices;
-
-
 
 public class Research: Buyable
 {
     const int RESEARCH_COUNT = 5;
-    public Buyable b;
+    public Researchable r;
 
-    public void Init(Buyable toResearch)
+    public void Init(Researchable toResearch)
     {
-        b = toResearch;
+        r = toResearch;
         name = "Research " + toResearch.name;
     }
 
     protected override string GetGeneratedDescription()
     {
-        return "Add " + b.name + " to your shop. Its text is\n\n" + b.description;
+        return "Add " + r.name + " to your shop. Its text is\n\n" + r.description;
     }
 
-    public override void Buy()
+    public override IEnumerator Buy()
     {
-        if(b is Card)
+        if(r is Card)
         {
-            Card card = (Card)b;
-            GameplayManager.instance.coinsShop.AddPile(card.name, card.baseCost);
+            Card card = (Card)r;
+            GameplayManager.instance.coinsShop.AddPile(card.name, card.buyCost);
             for(int i = 0; i < RESEARCH_COUNT; ++i)
             {
                 GameplayManager.instance.coinsShop.AddElement(card.Clone());
@@ -32,10 +31,11 @@ public class Research: Buyable
         }
         else
         {
-            Blueprint bp = (Blueprint)b;
-            GameplayManager.instance.hammersShop.AddPile(bp.name, bp.baseCost);
+            Blueprint bp = (Blueprint)r;
+            GameplayManager.instance.hammersShop.AddPile(bp.name, bp.buyCost);
             GameplayManager.instance.hammersShop.AddElement(bp.Clone());
         }
+        yield break;
     }
 
     protected virtual void HandleClone(Research clone)

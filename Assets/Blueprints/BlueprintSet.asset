@@ -8,8 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09885450e029cfe4d9917654fc18131a, type: 3}
-  m_Name: Core
+  m_Script: {fileID: 11500000, guid: 4b01733c4a04691449339effe67f7d18, type: 3}
+  m_Name: BlueprintSet
   m_EditorClassIdentifier: 
-  cards:
-  - {fileID: 11400000, guid: 69ad9896fb1f2ad488ecc7c358a5fb7d, type: 2}
+  elements:
+  - {fileID: 11400000, guid: b905bf4cf2541204fa6d8936cf11661e, type: 2}

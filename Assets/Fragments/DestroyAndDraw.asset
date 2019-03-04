@@ -8,8 +8,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09885450e029cfe4d9917654fc18131a, type: 3}
-  m_Name: RareCards
+  m_Script: {fileID: 11500000, guid: 46e01545a58f6b84c88d82796b3b2d98, type: 3}
+  m_Name: DestroyAndDraw
   m_EditorClassIdentifier: 
-  cards:
-  - {fileID: 11400000, guid: 69ad9896fb1f2ad488ecc7c358a5fb7d, type: 2}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: Change add pile/add element syntax and add a pile height (use Buyable.buyCost)
 public class Store
 {
 	public enum Type
@@ -74,11 +75,23 @@ public class Store
 		e.basePrice = price;
 		piles.Add(e);
 	}
-
-	protected bool RightPhase()
+	public bool CanAfford(int index)
 	{
 		GameplayManager gm = GameplayManager.instance;
-		return gm.currentPhase == GameplayManager.Phase.Spending;
+		switch(costType)
+		{
+			case Store.Type.attack:
+				return(gm.attack >= piles[index].price);
+			case Store.Type.coin:
+				return(gm.coin >= piles[index].price);
+			case Store.Type.hammers:
+				return(gm.hammers >= piles[index].price);
+			case Store.Type.science:
+				return(gm.science >= piles[index].price);
+			default:
+				Debug.Log("Invalid cost type in Store.cs");
+				return false;
+		}
 	}
 
 	public bool CanBuy(int index)
@@ -89,25 +102,13 @@ public class Store
 			return false;
 		}
 
-		GameplayManager gm = GameplayManager.instance;
-		switch(costType)
+		//Can't buy if you can't make inputs
+		if(!InputManager.instance.inputValid)
 		{
-			case Store.Type.attack:
-				return(RightPhase()
-					&& gm.attack >= piles[index].price);
-			case Store.Type.coin:
-				return(RightPhase()
-					&& gm.coin >= piles[index].price);
-			case Store.Type.hammers:
-				return(RightPhase()
-					&& gm.hammers >= piles[index].price);
-			case Store.Type.science:
-				return(RightPhase()
-					&& gm.science >= piles[index].price);
-			default:
-				Debug.Log("Invalid cost type in Store.cs");
-				return false;
+			return false;
 		}
+
+		return CanAfford(index);
 	}
 
     public virtual void Buy(int index)
@@ -137,11 +138,10 @@ public class Store
 			entry.price = piles[index].basePrice;
 			piles[index] = entry;
 			RemoveElement(bought);
-			bought.Buy();
+			GameplayManager.instance.StartCoroutine(bought.Buy());
 		}
 		else if(partialBuy
-			 && index < piles.Count
-			 && RightPhase())
+			 && index < piles.Count)
 		{
 			switch(costType)
 			{

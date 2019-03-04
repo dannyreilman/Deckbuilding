@@ -10,16 +10,13 @@ public class FragmentedCard : Card
     protected override IEnumerator OnPlay()
     {
         yield return base.OnPlay();
-        InputManager.instance.PlayEffect(playEffect);
+        yield return InputManager.instance.PlayEffect(playEffect);
     }
 
     protected override string GetGeneratedDescription()
     {
         string to_return = base.GetGeneratedDescription();
-        foreach(EffectFragmentWrapper sf in playEffect.fragments)
-        {
-            to_return += sf.GetDescription() + "\n";
-        }
+        to_return += playEffect.GetDescription();
 
         return to_return;
     }

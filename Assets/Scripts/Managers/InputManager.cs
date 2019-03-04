@@ -102,6 +102,11 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public bool CanPlayCardFrom(Zone z)
+    {
+        return inputValid && currentValidZones.Contains(z);
+    }
+
     //Trigger a playing input (standard input)
     //if zones is null, defaults to hand, if howMany is -1, defaults to infinite
     public void Play(Zone[] zones = null, int howMany = -1)

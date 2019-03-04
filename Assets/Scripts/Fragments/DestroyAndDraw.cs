@@ -13,4 +13,5 @@ public class DestroyAndDraw : SelectFragment
             yield return GameplayManager.instance.DrawCard();   
         }
     }
+    
 }

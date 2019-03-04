@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class CompoundEffect : Effect
 {
     public EffectFragmentWrapper[] fragments;
@@ -9,6 +10,7 @@ public class CompoundEffect : Effect
     bool initialized = false;
     void Initialize()
     {
+        Debug.Log("Initialized");
         foreach(EffectFragmentWrapper efw in fragments)
         {
             efw.GiveArguments();

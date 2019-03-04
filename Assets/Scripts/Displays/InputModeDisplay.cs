@@ -38,27 +38,19 @@ public class InputModeDisplay : MonoBehaviour {
 			case InputManager.InputMode.Dragging:
 				attachedText.text = "Drag cards";
 				nextTurn.SetActive(false);
+				autoPlay.SetActive(false);
 				break;
 			case InputManager.InputMode.Playing:
 				nextTurn.SetActive(true);
-				switch(GameplayManager.instance.currentPhase)
-				{
-					case GameplayManager.Phase.Cards:
-						attachedText.text = "Play cards";
-						childText.text = "Advance To Spending Phase";
-						autoPlay.SetActive(true);
-						break;
-					case GameplayManager.Phase.Spending:
-						attachedText.text = "Spend resources";
-						childText.text = "Next Turn";
-						autoPlay.SetActive(false);
-						break;
-				}
+				attachedText.text = "Play cards";
+				childText.text = "Next Turn";
+				autoPlay.SetActive(true);
 				break;
 			case InputManager.InputMode.Selecting:
 				attachedText.text = "Select " + (InputManager.instance.currentUpTo?"up to ":"") + InputManager.instance.currentStepsLeft + " cards.";
 				nextTurn.SetActive(false);
 				finishSelecting.SetActive(true);
+				autoPlay.SetActive(false);
 				break;
 		}
 
@@ -66,6 +58,7 @@ public class InputModeDisplay : MonoBehaviour {
 		{
 			nextTurn.SetActive(false);
 			finishSelecting.SetActive(false);
+			autoPlay.SetActive(false);
 		}
 	}
 
@@ -87,8 +80,11 @@ public class InputModeDisplay : MonoBehaviour {
 
 	public void ForceAdvance()
 	{
-		GameplayManager.instance.AdvancePhase();
-		skipConfirmation.SetActive(false);
+		if(InputManager.instance.inputValid)
+		{
+			GameplayManager.instance.EndTurn();
+			skipConfirmation.SetActive(false);
+		}
 	}
 	public void CloseConfirmation()
 	{
@@ -97,11 +93,17 @@ public class InputModeDisplay : MonoBehaviour {
 
 	public void FinishSelecting()
 	{
-		InputManager.instance.FinishSelecting();
+		if(InputManager.instance.inputValid)
+		{
+			InputManager.instance.FinishSelecting();
+		}
 	}
 
 	public void Autoplay()
 	{
-		GameplayManager.instance.AutoplayResources();
+		if(InputManager.instance.inputValid)
+		{
+			GameplayManager.instance.AutoplayResources();
+		}
 	}
 }

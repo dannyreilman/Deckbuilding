@@ -1,4 +1,6 @@
 using UnityEngine;
+using System;
+using System.Collections;
 public abstract class Buyable : ScriptableObject
 {
     protected virtual string GetGeneratedDescription()
@@ -6,9 +8,35 @@ public abstract class Buyable : ScriptableObject
         return "";
     }
 
-    public abstract void Buy();
+    public enum Rarity
+    {
+        None,
+        Common,
+        Rare,
+        Epic,
+        Mythic
+    }
+    public static float GetRarityWeight(Rarity r)
+    {
+        switch(r)
+        {
+            case Rarity.Common:
+                return 0.5f;
+            case Rarity.Rare:
+                return 0.4f;
+            case Rarity.Epic:
+                return 0.09f;
+            case Rarity.Mythic:
+                return 0.01f;
+            default:
+                return 0.0f;
+        }
+    }
+
+    public Rarity rarity;
+
+    public abstract IEnumerator Buy();
     public Sprite image;
-    public new string name;
     
     [SerializeField]
     private string description_internal;
@@ -46,6 +74,16 @@ public abstract class Buyable : ScriptableObject
             }
         }
     }
+    public bool IsType(string type)
+    {
+        string[] types = typeName.Split(' ');
+        foreach(string typeToCheck in types)
+        {
+            if(type == typeToCheck)
+                return true;
+        }
+        return false;
+    }
 
     private Color typeColor_internal = Color.clear;
     [HideInInspector]
@@ -60,4 +98,6 @@ public abstract class Buyable : ScriptableObject
     }
     public string tooltip;
     public string tooltipTitle;
+
+    public int buyCost;
 }

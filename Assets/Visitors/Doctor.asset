@@ -14,6 +14,6 @@ MonoBehaviour:
   blurb: (TEST)Hey yo I'm a doctor let me heal ya up.
   sprite: {fileID: 0}
   options:
-  - {fileID: 11400000, guid: dd5417c9bc0885f4a8ebdf9c6fb19d15, type: 2}
+  - {fileID: 11400000, guid: 63b2de8fd32e6ab488702e3edac713c8, type: 2}
   - {fileID: 11400000, guid: d7ccdc45e4543794488b5e77aeb3abcd, type: 2}
-  - {fileID: 11400000, guid: 5980d425a216c0f4cbf5dc176afb870f, type: 2}
+  - {fileID: 11400000, guid: ec5ec55a2b2f2a94a848eca19fc47ed3, type: 2}

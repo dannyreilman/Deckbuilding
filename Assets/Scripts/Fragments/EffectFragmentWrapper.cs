@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class EffectFragmentWrapper: ISerializationCallbackReceiver
 {
     public EffectFragment fragment;
-    public System.Object[] arguments;
+    public System.Object[] arguments = new System.Object[5];
 
     //for serialization (Unity doesn't know what do do with System.Object)
 
@@ -80,13 +80,13 @@ public class EffectFragmentWrapper: ISerializationCallbackReceiver
         {
             EffectFragment.Type[] types = fragment.GetArgumentTypes();
             arguments = new System.Object[types.Length];
-            if(int_args == null)
+            if(int_args == null || int_args.Length != types.Length)
                 int_args = new int[types.Length];
-            if(float_args == null)
+            if(float_args == null || float_args.Length != types.Length)
                 float_args = new float[types.Length];          
-            if(string_args == null)
+            if(string_args == null || string_args.Length != types.Length)
                 string_args = new string[types.Length];        
-            if(bool_args == null)
+            if(bool_args == null || bool_args.Length != types.Length)
                 bool_args = new bool[types.Length];
 
             for(int i = 0; i < types.Length; ++i)

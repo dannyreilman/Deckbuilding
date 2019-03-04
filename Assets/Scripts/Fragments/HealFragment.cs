@@ -9,8 +9,9 @@ public class HealFragment : EffectFragment
     int howMuch;
     public override IEnumerator DoEffectFragment()
     {
+        Debug.Log("Heal");
         GameplayManager.instance.health += howMuch;
-        yield break;
+        yield return new WaitForSeconds(0.1f);
     }
     public override void AcceptArguments(object[] arguments) 
     {

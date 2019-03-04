@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Runtime.CompilerServices;
 
 [CreateAssetMenu(menuName="Enemies/BasicEnemy", fileName="Spell")]
@@ -7,9 +8,11 @@ public class Enemy : Buyable
     public int health;
     public int attack;
 
-    public override void Buy()
+    public override IEnumerator Buy()
     {
+        yield return new WaitForSeconds(0.1f);
         GameplayManager.instance.activeEnemies.Remove(this);
+
     }
     public void DealAttack()
     {

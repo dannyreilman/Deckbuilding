@@ -8,6 +8,6 @@ using UnityEngine.UI;
 public class Visitor : ScriptableObject
 {
     public string blurb;
-    public Image sprite;
+    public Sprite sprite;
     public Buyable[] options;
 }

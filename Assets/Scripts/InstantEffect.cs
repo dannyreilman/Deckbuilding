@@ -6,13 +6,12 @@ using System.Collections.Generic;
 [CreateAssetMenu(menuName="Instant", fileName="New Instant")]
 class InstantEffect : Buyable
 {
-    public new string name;
     public Sprite sprite;
     public CompoundEffect buyEffect;
 
-    public override void Buy()
+    public override IEnumerator Buy()
     {
-        CardMonobehaviour.instance.StartCoroutine(InputManager.instance.PlayEffect(buyEffect));
+        yield return InputManager.instance.PlayEffect(buyEffect);
     }
 
     protected override string GetGeneratedDescription()

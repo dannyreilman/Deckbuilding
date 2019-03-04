@@ -8,12 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 042643459f77649428a8b9a761f2f8c8, type: 3}
-  m_Name: DestroyDrawOne
+  m_Script: {fileID: 11500000, guid: 4b01733c4a04691449339effe67f7d18, type: 3}
+  m_Name: EnemySet
   m_EditorClassIdentifier: 
-  name: Surgery
-  sprite: {fileID: 0}
-  fragments:
-  - {fileID: 11400000, guid: c559a915c1a41834bad37729b6ff722a, type: 2}
-  tooltip: 
-  tooltipTitle: 
+  elements:
+  - {fileID: 11400000, guid: d3e8647308155f74698539af1f69c516, type: 2}

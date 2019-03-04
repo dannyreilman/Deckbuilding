@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Name: TypeColorSelectorInstance
   m_EditorClassIdentifier: 
   entries:
-  - type: Coin Resource
+  - type: Money
     color: {r: 1, g: 0.97662324, b: 0, a: 1}
+  - type: Weapon
+    color: {r: 1, g: 0, b: 0.028181076, a: 1}
+  - type: Tool
+    color: {r: 0.6415094, g: 0.32378072, b: 0.35274646, a: 1}
   - type: Feral
-    color: {r: 0.7169812, g: 0.44569513, b: 0.44304025, a: 1}
+    color: {r: 0.839, g: 0.6305924, b: 0.627572, a: 1}
+  - type: Science
+    color: {r: 0.28773582, g: 1, b: 0.95687276, a: 1}
   defaultColor: {r: 1, g: 0, b: 0.87355375, a: 1}

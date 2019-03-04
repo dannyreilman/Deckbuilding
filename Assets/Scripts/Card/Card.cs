@@ -4,20 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu(menuName="Cards/BasicCard", fileName="New Card")]
-public class Card : Buyable
+public class Card : Researchable
 {
-    public bool IsType(string type)
-    {
-        string[] types = type.Split(' ');
-        foreach(string typeToCheck in types)
-        {
-            if(type == typeToCheck)
-                return true;
-        }
-        return false;
-    }
-    public int baseCost;
-    public int researchCost;
+    //Set this to true if the card should autoplay when the player presses autoplay
+    //This should be true for very basic stat cards
+    public bool autoplay = false;
+
+    //Set only when a card needs to duplicate when bought (like visitors)
+    [HideInInspector]
+    public bool cloneBuy = false;
     public int coin = 0;
     public int energy = 0;
 
@@ -28,9 +23,13 @@ public class Card : Buyable
     public int science = 0;
     public int energyCost = 0;
     
-    public override void Buy()
+    public override IEnumerator Buy()
     {
-        MoveTo(GameplayManager.instance.discard);
+        yield return new WaitForSeconds(0.1f);
+        if(cloneBuy)
+            Clone().MoveTo(GameplayManager.instance.discard);
+        else
+            MoveTo(GameplayManager.instance.discard);
     }
 
     [HideInInspector]
@@ -111,8 +110,7 @@ public class Card : Buyable
 
     public virtual bool CanPlay()
     {
-        return InputManager.instance.currentMode == InputManager.InputMode.Playing
-            && InputManager.instance.currentValidZones.Contains(zone)
+        return InputManager.instance.CanPlayCardFrom(zone)
             && GameplayManager.instance.energy >= energyCost;
     }
 
