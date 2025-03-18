@@ -29,7 +29,7 @@ public class ZoomDisplay : MonoBehaviour {
 			title = visibleObjects.transform.GetChild(0).GetChild(2).GetComponentInChildren<Text>();
 			cardBanner = image.transform.GetChild(0).gameObject;
 			typeBanner = visibleObjects.transform.GetChild(0).GetChild(3).GetComponent<Image>();
-			cardText = visibleObjects.transform.GetChild(0).GetChild(4).GetComponentInChildren<Text>();
+			cardText = visibleObjects.transform.GetChild(0).GetChild(2).GetComponentInChildren<Text>();
 		}
 		else
 		{
